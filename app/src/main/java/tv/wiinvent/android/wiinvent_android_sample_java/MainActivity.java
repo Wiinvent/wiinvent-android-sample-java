@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import tv.wiinvent.wiinventsdk.OverlayManager;
 import tv.wiinvent.wiinventsdk.interfaces.DefaultOverlayEventListener;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
+import tv.wiinvent.wiinventsdk.interfaces.UserActionListener;
 import tv.wiinvent.wiinventsdk.models.ConfigData;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
 
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         overlayManager = new OverlayManager(this, R.id.wisdk_overlay_view, overlayData);
-        overlayManager.addOverlayListener(new DefaultOverlayEventListener() {
 
+        overlayManager.addUserPlayerListener(new UserActionListener() {
             @Override
             public void onVoted(@NotNull String userId, @NotNull String channelId, @Nullable String streamId, @NotNull String entryId, int numPredictSame) {
 
@@ -66,6 +67,34 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onUserPurchase(@NotNull String userId, int productId) {
+
+            }
+        });
+
+        overlayManager.addOverlayListener(new DefaultOverlayEventListener() {
+
+            @Override
+            public void onWebViewBrowserOpen() {
+
+            }
+
+            @Override
+            public void onWebViewBrowserContentVisible(boolean b) {
+
+            }
+
+            @Override
+            public void onWebViewBrowserClose() {
+
+            }
+
+            @Override
+            public void onTimeout() {
+
+            }
+
+            @Override
+            public void onLoadError() {
 
             }
 
