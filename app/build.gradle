@@ -34,7 +34,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/Wiinvent/wiinvent-sdk-android-support-v4")
         credentials {
             username = "Wiinvent" //githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
-            password = "8b3252e0676aa7224d03b2d38596d0129b502245" //githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+            password = "a3366f8312657dab9ba14076bbc329c9d3ef16f1" //githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
         }
     }
 }
