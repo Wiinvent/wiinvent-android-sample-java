@@ -19,8 +19,8 @@ import tv.wiinvent.wiinventsdk.models.OverlayData;
 public class MainActivity extends AppCompatActivity {
 
     public static final String SAMPLE_ACCOUNT_ID = "1";
-    public static final String SAMPLE_CHANNEL_ID = "1";
-    public static final String SAMPLE_STREAM_ID = "1";
+    public static final String SAMPLE_CHANNEL_ID = "34";
+    public static final String SAMPLE_STREAM_ID = "";
 
     private ExoPlayer exoPlayer;
     private OverlayManager overlayManager;
@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeOverlays() {
         OverlayData overlayData = new OverlayData.Builder()
-                .mappingType(OverlayData.MappingType.THIRDPARTY)
-                .accountId(SAMPLE_ACCOUNT_ID)
+                .mappingType(OverlayData.MappingType.WI)
+             //   .accountId(SAMPLE_ACCOUNT_ID)
                 .channelId(SAMPLE_CHANNEL_ID)
-                .streamId(SAMPLE_STREAM_ID)
+              //  .streamId(SAMPLE_STREAM_ID)
                 .env(OverlayData.Environment.DEV)
                 .deviceType(OverlayData.DeviceType.PHONE)
                 .build();
@@ -61,12 +61,17 @@ public class MainActivity extends AppCompatActivity {
 
         overlayManager.addUserPlayerListener(new UserActionListener() {
             @Override
-            public void onVoted(@NotNull String userId, @NotNull String channelId, @Nullable String streamId, @NotNull String entryId, int numPredictSame) {
+            public void onVoted(@NotNull String s, @NotNull String s1, @Nullable String s2, @NotNull String s3, @NotNull String s4, @NotNull String s5, @NotNull String s6, int i) {
 
             }
 
             @Override
-            public void onUserPurchase(@NotNull String userId, int productId) {
+            public void onUserPurchase(@NotNull String s, @NotNull String s1) {
+
+            }
+
+            @Override
+            public void onTokenExpire() {
 
             }
         });
