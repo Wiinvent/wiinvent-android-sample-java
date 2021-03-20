@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getCanonicalName();
 
-    public static final String SAMPLE_ACCOUNT_ID = "1";
-    public static final String SAMPLE_CHANNEL_ID = "1";
-    public static final String SAMPLE_STREAM_ID = "1";
+    public static final String SAMPLE_ACCOUNT_ID = "81";
+    public static final String SAMPLE_CHANNEL_ID = "30";
+    public static final String SAMPLE_STREAM_ID = "2";
+    public static final String SAMPLE_TOKEN = "1001";
 
     private PlayerView exoplayerView = null;
     private SimpleExoPlayer exoplayer;
@@ -164,13 +165,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeOverlays() {
+//        OverlayData overlayData = null;
         OverlayData overlayData = new OverlayData.Builder()
-                .mappingType(OverlayData.MappingType.WI)
-             //   .accountId(SAMPLE_ACCOUNT_ID)
+                .mappingType(OverlayData.MappingType.THIRDPARTY)
+                .accountId(SAMPLE_ACCOUNT_ID)
                 .channelId(SAMPLE_CHANNEL_ID)
-              //  .streamId(SAMPLE_STREAM_ID)
+                .streamId(SAMPLE_STREAM_ID)
                 .env(OverlayData.Environment.DEV)
                 .deviceType(OverlayData.DeviceType.PHONE)
+                .contentType(OverlayData.ContentType.LIVESTREAM)
                 .build();
 
         overlayManager = new OverlayManager(this, R.id.wisdk_overlay_view, overlayData);
