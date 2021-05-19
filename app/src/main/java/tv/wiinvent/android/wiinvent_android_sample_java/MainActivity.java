@@ -35,6 +35,7 @@ import kotlin.jvm.internal.MagicApiIntrinsics;
 import tv.wiinvent.wiinventsdk.OverlayManager;
 import tv.wiinvent.wiinventsdk.interfaces.DefaultOverlayEventListener;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
+import tv.wiinvent.wiinventsdk.interfaces.ProfileListener;
 import tv.wiinvent.wiinventsdk.interfaces.UserActionListener;
 import tv.wiinvent.wiinventsdk.models.ConfigData;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getCanonicalName();
 
     public static final String SAMPLE_ACCOUNT_ID = "81";
-    public static final String SAMPLE_CHANNEL_ID = "30";
-    public static final String SAMPLE_STREAM_ID = "2";
-    public static final String SAMPLE_TOKEN = "1001";
+    public static final String SAMPLE_CHANNEL_ID = "54";
+    public static final String SAMPLE_STREAM_ID = "127";
+    public static final String SAMPLE_TOKEN = "3001";
 
     private PlayerView exoplayerView = null;
     private SimpleExoPlayer exoplayer;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             initializePlayer();
             initializeOverlays();
+
+//            initProfileOverlays();
         }
     }
 
@@ -100,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
         mediaSession = new MediaSessionCompat(getBaseContext(), "ExoPlayer", componentName, null);
         mediaSession.setPlaybackState(playbackStateBuilder.build());
         mediaSession.setActive(true);
+
+        exoplayer.setPlayWhenReady(true);
+        exoplayer.prepare(buildMediaSource("https://wiinvent.tv/videos/rewiew_air_tag.mp4"));
 
 
         fullscreenButton.setOnClickListener(new View.OnClickListener() {
@@ -167,81 +173,17 @@ public class MainActivity extends AppCompatActivity {
     private void initializeOverlays() {
 //        OverlayData overlayData = null;
         OverlayData overlayData = new OverlayData.Builder()
-                .mappingType(OverlayData.MappingType.THIRDPARTY)
+                .mappingType(OverlayData.MappingType.WI)
                 .accountId(SAMPLE_ACCOUNT_ID)
                 .channelId(SAMPLE_CHANNEL_ID)
                 .streamId(SAMPLE_STREAM_ID)
+                .thirdPartyToken(SAMPLE_TOKEN)
                 .env(OverlayData.Environment.DEV)
                 .deviceType(OverlayData.DeviceType.PHONE)
                 .contentType(OverlayData.ContentType.LIVESTREAM)
                 .build();
 
         overlayManager = new OverlayManager(this, R.id.wisdk_overlay_view, overlayData);
-
-        overlayManager.addUserPlayerListener(new UserActionListener() {
-            @Override
-            public void onVoted(@NotNull String s, @NotNull String s1, @Nullable String s2, @NotNull String s3, @NotNull String s4, @NotNull String s5, @NotNull String s6, int i) {
-
-            }
-
-            @Override
-            public void onUserPurchase(@NotNull String s, @NotNull String s1) {
-
-            }
-
-            @Override
-            public void onTokenExpire() {
-
-            }
-        });
-
-        overlayManager.addOverlayListener(new DefaultOverlayEventListener() {
-
-            @Override
-            public void onWebViewBrowserOpen() {
-
-            }
-
-            @Override
-            public void onWebViewBrowserContentVisible(boolean b) {
-
-            }
-
-            @Override
-            public void onWebViewBrowserClose() {
-
-            }
-
-            @Override
-            public void onTimeout() {
-
-            }
-
-            @Override
-            public void onLoadError() {
-
-            }
-
-            @Override
-            public void onConfigReady(@NotNull final ConfigData configData) {
-
-                //ready Overlays
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for(StreamSource source : configData.getStreamSources()) {
-                            Log.d(TAG, "============onConfigReady: " + source.getUrl() != null ? source.getUrl() : "");
-                            if(exoplayer != null && source.getUrl() != null) {
-                                exoplayer.setPlayWhenReady(true);
-                                exoplayer.prepare(buildMediaSource(source.getUrl()));
-                            }
-                        }
-                    }
-                });
-
-
-            }
-        });
 
         overlayManager.addPlayerListener(new PlayerChangeListener(){
 
