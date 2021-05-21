@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeOverlays() {
 //        OverlayData overlayData = null;
         OverlayData overlayData = new OverlayData.Builder()
-                .mappingType(OverlayData.MappingType.WI)
+                .mappingType(OverlayData.MappingType.THIRDPARTY)
                 .accountId(SAMPLE_ACCOUNT_ID)
                 .channelId(SAMPLE_CHANNEL_ID)
                 .streamId(SAMPLE_STREAM_ID)
