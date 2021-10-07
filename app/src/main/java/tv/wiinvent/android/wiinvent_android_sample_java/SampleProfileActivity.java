@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -33,8 +34,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import tv.wiinvent.wiinventsdk.OverlayManager;
+import tv.wiinvent.wiinventsdk.interfaces.AdEventListener;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
 import tv.wiinvent.wiinventsdk.interfaces.ProfileListener;
+import tv.wiinvent.wiinventsdk.models.AdEvent;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
 import tv.wiinvent.wiinventsdk.ui.OverlayView;
 
@@ -42,7 +45,7 @@ public class SampleProfileActivity extends AppCompatActivity {
 
     public static final String TAG = SampleProfileActivity.class.getCanonicalName();
 
-    public static final String SAMPLE_ACCOUNT_ID = "13";
+    public static final String SAMPLE_ACCOUNT_ID = "30";
     public static final String SAMPLE_TOKEN = "MmMyanROTExYUGZOUkRmL3J5U1BVQT09fHxBRHx8aHR0cDovL3MxaW1nLm15Y2xpcC52bi9pbWFnZTEvMjAyMC8wMy8wMy8xNTgzMjA2MjkyNTY3L2M1Mjg1NzJjYzc0Zl8xODBfMTgwLmpwZ3x8MTYyMTU2MzY5MQ%3D%3D%26%26%26ZBHLuWGTS6lvsZpzppkRwf5GTm1NHPpg0xz%2FIzIcsLSLPli7K7RMLFB9hjJD03EzQ0P%2FMJxeaqOoWOjHXdOBobApWiexQ0TncwUwTUPeQIRc5sxwLlLzkOlmuiDT5pBSzIjazEyAz27qpYrikpUd9d%2BWTHnV1byoloPTV5ogXWJGKplnswPDRaIIWusIEppZInRmWPT8pWRFxikB6boQNTQWkCbJtFg%2FpxmYXEoHE4AexBonJH7Ma9%2Fqp4VXXrwcvE3h85QbEeHdbiLtpwn%2BOL%2FPyjICWn1PblZtS5Az2TAY9Z7OnSc%2BAKZzxnzomxfZenixdnmpkobWDals28imNw%3D%3D";
 
     private OverlayManager overlayManager;
@@ -84,7 +87,21 @@ public class SampleProfileActivity extends AppCompatActivity {
 
             @Override
             public void onLogin() {
-                Log.d(TAG, "onLogin: ");sss
+                Log.d(TAG, "onLogin: ");
+            }
+        });
+
+        overlayManager.addAdEventListener(new AdEventListener() {
+            @Override
+            public void onAdsEvent(@NonNull AdEvent adEvent) {
+                switch (adEvent.getEventType()) {
+                    case START:
+
+                        break;
+                    case IMPRESSION:
+
+                        break;
+                }
             }
         });
     }
