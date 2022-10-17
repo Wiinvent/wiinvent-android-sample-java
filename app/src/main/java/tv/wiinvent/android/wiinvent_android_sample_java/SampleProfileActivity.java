@@ -76,8 +76,13 @@ public class SampleProfileActivity extends AppCompatActivity {
         overlayManager = new OverlayManager(this, R.id.wisdk_overlay_view, overlayData);
         overlayManager.addProfileListener(new ProfileListener() {
             @Override
-            public void onVideoDetail(@NotNull String videoId) {
-                Log.d(TAG, "onVideoDetail: ");
+            public void onVideoDetail(@NonNull String s, boolean b) {
+
+            }
+
+            @Override
+            public void onCategoryDetail(@NonNull String s) {
+
             }
 
             @Override

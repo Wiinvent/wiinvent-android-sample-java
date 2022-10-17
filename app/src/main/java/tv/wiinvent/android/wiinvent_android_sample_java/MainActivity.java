@@ -1,5 +1,6 @@
 package tv.wiinvent.android.wiinvent_android_sample_java;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -18,39 +19,38 @@ import android.widget.ImageView;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import kotlin.jvm.internal.MagicApiIntrinsics;
+import tv.wiinvent.wiinventsdk.InStreamManager;
 import tv.wiinvent.wiinventsdk.OverlayManager;
-import tv.wiinvent.wiinventsdk.interfaces.DefaultOverlayEventListener;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
-import tv.wiinvent.wiinventsdk.interfaces.ProfileListener;
-import tv.wiinvent.wiinventsdk.interfaces.UserActionListener;
-import tv.wiinvent.wiinventsdk.models.ConfigData;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
-import tv.wiinvent.wiinventsdk.models.StreamSource;
+import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
+import tv.wiinvent.wiinventsdk.network.WiApiClient;
 import tv.wiinvent.wiinventsdk.ui.OverlayView;
 
 public class MainActivity extends AppCompatActivity {
-
-
     public static final String TAG = MainActivity.class.getCanonicalName();
 
-    public static final String SAMPLE_ACCOUNT_ID = "81";
-    public static final String SAMPLE_CHANNEL_ID = "54";
-    public static final String SAMPLE_STREAM_ID = "127";
+    public static final String SAMPLE_ACCOUNT_ID = "14";
+    public static final String SAMPLE_CHANNEL_ID = "11683";
+    public static final String SAMPLE_STREAM_ID = "13545";
     public static final String SAMPLE_TOKEN = "3001";
+
+    private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
 
     private PlayerView exoplayerView = null;
     private SimpleExoPlayer exoplayer;
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     private OverlayManager overlayManager;
     private OverlayView overlayView;
+
+    private InStreamManager inStreamManager;
 
     private Boolean fullscreen = false;
     private ImageView fullscreenButton = null;
@@ -80,9 +82,14 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             initializePlayer();
             initializeOverlays();
+            initializeInstreamAds();
 
 //            initProfileOverlays();
         }
+    }
+
+    private void initializeInstreamAds() {
+
     }
 
 
@@ -104,9 +111,36 @@ public class MainActivity extends AppCompatActivity {
         mediaSession.setPlaybackState(playbackStateBuilder.build());
         mediaSession.setActive(true);
 
-        exoplayer.setPlayWhenReady(true);
-        exoplayer.prepare(buildMediaSource("https://wiinvent.tv/videos/rewiew_air_tag.mp4"));
+        String userAgent = Util.getUserAgent(getApplicationContext(), "Exo");
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
+        MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
+        inStreamManager = new InStreamManager();
+        inStreamManager.init(getBaseContext(), SAMPLE_ACCOUNT_ID, InStreamManager.DeviceType.MOBILE, WiApiClient.Environment.SANDBOX);
+        inStreamManager.setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+            @Override
+            public void onResponse(@NonNull ImaAdsLoader imaAdsLoader) {
+                imaAdsLoader.setPlayer(exoplayer);
+                AdsMediaSource adsMediaSource = new AdsMediaSource(
+                    mediaSource, dataSourceFactory, imaAdsLoader, exoplayerView
+                );
+                exoplayer.prepare(adsMediaSource);
+                exoplayer.setPlayWhenReady(true);
+            }
+
+            @Override
+            public void onFailure() {
+                exoplayer.prepare(mediaSource);
+                exoplayer.setPlayWhenReady(true);
+            }
+        });
+
+        AdsRequestData adsRequestData = new AdsRequestData.Builder()
+            .channelId(SAMPLE_CHANNEL_ID)
+            .streamId(SAMPLE_STREAM_ID)
+            .build();
+
+        inStreamManager.requestAds(adsRequestData);
 
         fullscreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
     private void initializeOverlays() {
 //        OverlayData overlayData = null;
         OverlayData overlayData = new OverlayData.Builder()
-                .mappingType(OverlayData.MappingType.THIRDPARTY)
                 .accountId(SAMPLE_ACCOUNT_ID)
                 .channelId(SAMPLE_CHANNEL_ID)
                 .streamId(SAMPLE_STREAM_ID)
@@ -207,9 +240,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private MediaSource buildMediaSource(String url) {
-        String userAgent = Util.getUserAgent(getApplicationContext(), "Exo");
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
+    private MediaSource buildMediaSource(DataSource.Factory dataSourceFactory, String url) {
         Uri uri = Uri.parse(url);
         switch (Util.inferContentType(uri)) {
             case C.TYPE_DASH:
