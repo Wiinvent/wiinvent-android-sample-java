@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -38,6 +39,7 @@ import tv.wiinvent.wiinventsdk.InStreamManager;
 import tv.wiinvent.wiinventsdk.OverlayManager;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
+import tv.wiinvent.wiinventsdk.models.ads.AdInStreamEvent;
 import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
 import tv.wiinvent.wiinventsdk.network.WiApiClient;
 import tv.wiinvent.wiinventsdk.ui.OverlayView;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean fullscreen = false;
     private ImageView fullscreenButton = null;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
         inStreamManager = new InStreamManager();
         inStreamManager.init(getBaseContext(), SAMPLE_ACCOUNT_ID, InStreamManager.DeviceType.MOBILE, WiApiClient.Environment.SANDBOX);
         inStreamManager.setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+            @Override
+            public void onEvent(@NonNull AdInStreamEvent adInStreamEvent) {
+
+            }
+
             @Override
             public void onResponse(@NonNull ImaAdsLoader imaAdsLoader) {
                 imaAdsLoader.setPlayer(exoplayer);

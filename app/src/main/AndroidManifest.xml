@@ -16,8 +16,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:name=".MainActivity">
+            android:screenOrientation="fullSensor"
+            android:name=".MainActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="fullSensor"
+            android:name=".GameActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +38,7 @@
         </activity>
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:name=".SampleProfileActivity">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
