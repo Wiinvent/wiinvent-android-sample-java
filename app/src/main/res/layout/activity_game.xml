@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".feature.InStreamActivity">
 
-    <tv.wiinvent.wiinventsdk.ui.OverlayView
-        android:id="@+id/wisdk_overlay_view"
+    <tv.wiinvent.wiinventsdk.ui.games.GameView
+        android:id="@+id/game_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-      />
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
