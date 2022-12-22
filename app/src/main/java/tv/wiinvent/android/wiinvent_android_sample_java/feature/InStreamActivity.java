@@ -42,6 +42,8 @@ import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
 import tv.wiinvent.wiinventsdk.models.ads.AdInStreamEvent;
 import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
+import tv.wiinvent.wiinventsdk.models.type.DeviceType;
+import tv.wiinvent.wiinventsdk.models.type.Environment;
 import tv.wiinvent.wiinventsdk.network.WiApiClient;
 import tv.wiinvent.wiinventsdk.ui.OverlayView;
 
@@ -95,7 +97,7 @@ public class InStreamActivity extends AppCompatActivity {
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
     inStreamManager = new InStreamManager();
-    inStreamManager.init(getBaseContext(), SAMPLE_ACCOUNT_ID, InStreamManager.DeviceType.MOBILE, WiApiClient.Environment.SANDBOX);
+    inStreamManager.init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX);
     inStreamManager.setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
       @Override
       public void onEvent(@NonNull AdInStreamEvent event) {

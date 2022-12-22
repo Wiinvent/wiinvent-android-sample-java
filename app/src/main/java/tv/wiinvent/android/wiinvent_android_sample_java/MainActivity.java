@@ -2,6 +2,7 @@ package tv.wiinvent.android.wiinvent_android_sample_java;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -10,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.WelcomeAdActivity;
+import tv.wiinvent.wiinventsdk.interfaces.welcome.WelcomeAdsLoaderListener;
+import tv.wiinvent.wiinventsdk.loaders.WelcomeAdsLoader;
+import tv.wiinvent.wiinventsdk.models.type.DeviceType;
+import tv.wiinvent.wiinventsdk.models.type.Environment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,8 +42,19 @@ public class MainActivity extends AppCompatActivity {
     findViewById(R.id.welcomeBtn).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, WelcomeAdActivity.class);
-        startActivity(intent);
+        WelcomeAdsLoader.Companion.getInstance().init("14", DeviceType.PHONE, Environment.SANDBOX, 10);
+        WelcomeAdsLoader.Companion.getInstance().requestAds(new WelcomeAdsLoaderListener() {
+          @Override
+          public void onDisplayAds() {
+            Intent intent = new Intent(MainActivity.this, WelcomeAdActivity.class);
+            startActivity(intent);
+          }
+
+          @Override
+          public void onNoAds() {
+            Log.d("TAG", "=========khong co ads de show");
+          }
+        });
       }
     });
   }
