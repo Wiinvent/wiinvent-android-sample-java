@@ -39,6 +39,7 @@ import tv.wiinvent.android.wiinvent_android_sample_java.R;
 import tv.wiinvent.wiinventsdk.InStreamManager;
 import tv.wiinvent.wiinventsdk.OverlayManager;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
+import tv.wiinvent.wiinventsdk.logging.LevelLog;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
 import tv.wiinvent.wiinventsdk.models.ads.AdInStreamEvent;
 import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
@@ -50,16 +51,14 @@ import tv.wiinvent.wiinventsdk.ui.OverlayView;
 public class InStreamActivity extends AppCompatActivity {
   public static final String TAG = InStreamActivity.class.getCanonicalName();
 
-  public static final String SAMPLE_ACCOUNT_ID = "14";
+  public static final String SAMPLE_ACCOUNT_ID = "4";
   public static final String SAMPLE_CHANNEL_ID = "998989";
-  public static final String SAMPLE_STREAM_ID = "2900909";
+  public static final String SAMPLE_STREAM_ID = "935275";
 
   private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
 
   private PlayerView exoplayerView = null;
   private SimpleExoPlayer exoplayer;
-
-  private InStreamManager inStreamManager;
 
   private Boolean fullscreen = false;
   private ImageView fullscreenButton = null;
@@ -73,10 +72,10 @@ public class InStreamActivity extends AppCompatActivity {
     exoplayerView = findViewById(R.id.simple_exo_player_view);
     fullscreenButton = findViewById(R.id.exo_fullscreen_icon);
 
-    initialize();
+    initializePlayer();
   }
 
-  private void initialize() {
+  private void initializePlayer() {
     ComponentName componentName = new ComponentName(getBaseContext(), "Exo");
 
     exoplayer = new SimpleExoPlayer.Builder(getBaseContext()).build();
@@ -96,9 +95,8 @@ public class InStreamActivity extends AppCompatActivity {
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
-    inStreamManager = new InStreamManager();
-    inStreamManager.init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX);
-    inStreamManager.setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.PRODUCTION, 5, 5, LevelLog.BODY);
+    InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
       @Override
       public void onEvent(@NonNull AdInStreamEvent event) {
         Log.d(TAG, "==========event " + event.getEventType() + " - " + event.getCampaignId());
@@ -132,60 +130,57 @@ public class InStreamActivity extends AppCompatActivity {
         .streamId(SAMPLE_STREAM_ID)
         .build();
 
-    inStreamManager.requestAds(adsRequestData);
+    InStreamManager.Companion.getInstance().requestAds(adsRequestData);
 
-    fullscreenButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (fullscreen) {
-          fullscreenButton.setImageDrawable(
-              ContextCompat.getDrawable(
-                  getBaseContext(),
-                  R.drawable.ic_fullscreen_open
-              )
-          );
+    fullscreenButton.setOnClickListener(v -> {
+      if (fullscreen) {
+        fullscreenButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                getBaseContext(),
+                R.drawable.ic_fullscreen_open
+            )
+        );
 
-          getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-          if (getSupportActionBar() != null) {
-            getSupportActionBar().show();
-          }
-
-          setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-          //player
-          ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) exoplayerView.getLayoutParams();
-          params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-          params.height = (int) (250 * getApplicationContext().getResources()
-              .getDisplayMetrics().density);
-          exoplayerView.setLayoutParams(params);
-
-          fullscreen = false;
-        } else {
-          fullscreenButton.setImageDrawable(
-              ContextCompat.getDrawable(
-                  getBaseContext(),
-                  R.drawable.ic_fullscreen_close
-              )
-          );
-
-          getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
-              | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-          if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-          }
-
-          setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-          //player
-          ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) exoplayerView.getLayoutParams();
-          params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-          params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-          exoplayerView.setLayoutParams(params);
-
-          fullscreen = true;
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        if (getSupportActionBar() != null) {
+          getSupportActionBar().show();
         }
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //player
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) exoplayerView.getLayoutParams();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = (int) (250 * getApplicationContext().getResources()
+            .getDisplayMetrics().density);
+        exoplayerView.setLayoutParams(params);
+
+        fullscreen = false;
+      } else {
+        fullscreenButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                getBaseContext(),
+                R.drawable.ic_fullscreen_close
+            )
+        );
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        if (getSupportActionBar() != null) {
+          getSupportActionBar().hide();
+        }
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        //player
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) exoplayerView.getLayoutParams();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        exoplayerView.setLayoutParams(params);
+
+        fullscreen = true;
       }
     });
   }
@@ -216,5 +211,13 @@ public class InStreamActivity extends AppCompatActivity {
   @Override
   protected void onDestroy() {
     super.onDestroy();
+
+    if(exoplayer != null) {
+      exoplayer.stop();
+      exoplayer.release();
+      exoplayer = null;
+    }
+
+    InStreamManager.Companion.getInstance().release();
   }
 }

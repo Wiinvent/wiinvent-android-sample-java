@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     findViewById(R.id.welcomeBtn).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        WelcomeAdsLoader.Companion.getInstance().init("14", DeviceType.PHONE, Environment.SANDBOX, 10);
+        WelcomeAdsLoader.Companion.getInstance().init(getBaseContext() ,"4", DeviceType.PHONE, Environment.PRODUCTION, 10);
         WelcomeAdsLoader.Companion.getInstance().requestAds(new WelcomeAdsLoaderListener() {
           @Override
           public void onDisplayAds() {

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
@@ -11,6 +13,7 @@ import java.util.Objects;
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
 import tv.wiinvent.wiinventsdk.AdsWelcomeManager;
 import tv.wiinvent.wiinventsdk.interfaces.welcome.WelcomeAdEventListener;
+import tv.wiinvent.wiinventsdk.models.welcome.ClickThroughType;
 
 public class WelcomeAdActivity extends AppCompatActivity {
   public static final String TAG = WelcomeAdActivity.class.getCanonicalName();
@@ -31,6 +34,11 @@ public class WelcomeAdActivity extends AppCompatActivity {
     adsWelcomeManager.showAds(this, R.id.welcome_ad_view, 10);
     adsWelcomeManager.addWelcomeListener(new WelcomeAdEventListener() {
       @Override
+      public void onAdsWelcomeClick(@NonNull ClickThroughType clickThroughType, @NonNull String s, long l) {
+        Log.d(TAG, "===> onAdsWelcomeClick: " + clickThroughType);
+      }
+
+      @Override
       public void onAdsWelcomeDismiss() {
         Log.d(TAG, "===> onDismiss");
         runOnUiThread(new Runnable() {
@@ -39,11 +47,6 @@ public class WelcomeAdActivity extends AppCompatActivity {
             finish();
           }
         });
-      }
-
-      @Override
-      public void onAdsWelcomeClick(long campaignId) {
-        Log.d(TAG, "===> onAdsWelcomeClick: " + campaignId);
       }
 
       @Override

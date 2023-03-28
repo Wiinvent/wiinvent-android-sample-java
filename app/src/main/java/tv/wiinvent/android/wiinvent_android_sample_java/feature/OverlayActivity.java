@@ -66,8 +66,6 @@ public class OverlayActivity extends AppCompatActivity {
   private OverlayManager overlayManager;
   private OverlayView overlayView;
 
-  private InStreamManager inStreamManager;
-
   private Boolean fullscreen = false;
   private ImageView fullscreenButton = null;
 
@@ -117,38 +115,6 @@ public class OverlayActivity extends AppCompatActivity {
     String userAgent = Util.getUserAgent(getApplicationContext(), "Exo");
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
-
-    inStreamManager = new InStreamManager();
-    inStreamManager.init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX);
-    inStreamManager.setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
-      @Override
-      public void onEvent(@NonNull AdInStreamEvent adInStreamEvent) {
-
-      }
-
-      @Override
-      public void onResponse(@NonNull ImaAdsLoader imaAdsLoader) {
-        imaAdsLoader.setPlayer(exoplayer);
-        AdsMediaSource adsMediaSource = new AdsMediaSource(
-            mediaSource, dataSourceFactory, imaAdsLoader, exoplayerView
-        );
-        exoplayer.prepare(adsMediaSource);
-        exoplayer.setPlayWhenReady(true);
-      }
-
-      @Override
-      public void onFailure() {
-        exoplayer.prepare(mediaSource);
-        exoplayer.setPlayWhenReady(true);
-      }
-    });
-
-    AdsRequestData adsRequestData = new AdsRequestData.Builder()
-        .channelId(SAMPLE_CHANNEL_ID)
-        .streamId(SAMPLE_STREAM_ID)
-        .build();
-
-    inStreamManager.requestAds(adsRequestData);
 
     fullscreenButton.setOnClickListener(new View.OnClickListener() {
       @Override
