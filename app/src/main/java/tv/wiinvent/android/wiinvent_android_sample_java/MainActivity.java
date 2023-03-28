@@ -23,39 +23,30 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    findViewById(R.id.instreamBtn).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, InStreamActivity.class);
-        startActivity(intent);
-      }
+    findViewById(R.id.instreamBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, InStreamActivity.class);
+      startActivity(intent);
     });
 
-    findViewById(R.id.votingBtn).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, GameActivity.class);
-        startActivity(intent);
-      }
+    findViewById(R.id.votingBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, GameActivity.class);
+      startActivity(intent);
     });
 
-    findViewById(R.id.welcomeBtn).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        WelcomeAdsLoader.Companion.getInstance().init(getBaseContext() ,"4", DeviceType.PHONE, Environment.PRODUCTION, 10);
-        WelcomeAdsLoader.Companion.getInstance().requestAds(new WelcomeAdsLoaderListener() {
-          @Override
-          public void onDisplayAds() {
-            Intent intent = new Intent(MainActivity.this, WelcomeAdActivity.class);
-            startActivity(intent);
-          }
+    findViewById(R.id.welcomeBtn).setOnClickListener(v -> {
+      WelcomeAdsLoader.Companion.getInstance().init(getBaseContext() ,"4", DeviceType.PHONE, Environment.PRODUCTION, 10);
+      WelcomeAdsLoader.Companion.getInstance().requestAds(new WelcomeAdsLoaderListener() {
+        @Override
+        public void onDisplayAds() {
+          Intent intent = new Intent(MainActivity.this, WelcomeAdActivity.class);
+          startActivity(intent);
+        }
 
-          @Override
-          public void onNoAds() {
-            Log.d("TAG", "=========khong co ads de show");
-          }
-        });
-      }
+        @Override
+        public void onNoAds() {
+          Log.d("TAG", "=========khong co ads de show");
+        }
+      });
     });
   }
 }
