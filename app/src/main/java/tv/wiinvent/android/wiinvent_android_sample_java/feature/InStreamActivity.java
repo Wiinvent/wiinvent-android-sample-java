@@ -36,6 +36,7 @@ import com.google.android.exoplayer2.util.Util;
 import org.jetbrains.annotations.Nullable;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds;
 import tv.wiinvent.wiinventsdk.InStreamManager;
 import tv.wiinvent.wiinventsdk.OverlayManager;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
@@ -63,6 +64,8 @@ public class InStreamActivity extends AppCompatActivity {
   private Boolean fullscreen = false;
   private ImageView fullscreenButton = null;
 
+  private TV360SkipAdsButtonAds skipButton = null;
+
   @SuppressLint("MissingInflatedId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class InStreamActivity extends AppCompatActivity {
 
     exoplayerView = findViewById(R.id.simple_exo_player_view);
     fullscreenButton = findViewById(R.id.exo_fullscreen_icon);
+    skipButton = findViewById(R.id.skip_button);
 
     initializePlayer();
   }
@@ -95,8 +99,30 @@ public class InStreamActivity extends AppCompatActivity {
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
-    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.PRODUCTION, 5, 5, LevelLog.BODY);
+    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.PRODUCTION, 10, 10, 10, LevelLog.BODY, 5);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+      @Override
+      public void showSkipButton(int duration) {
+        Log.d(TAG, "=========InStreamManager showSkipButton " + duration + " --- " + skipButton);
+        if(skipButton != null) {
+          skipButton.startCountdown(duration);
+        }
+      }
+
+      @Override
+      public void onTimeout() {
+
+      }
+
+      @Override
+      public void hideSkipButton() {
+        Log.d(TAG, "=========InStreamManager hideSkipButton ");
+
+        if(skipButton != null) {
+          skipButton.hide();
+        }
+      }
+
       @Override
       public void onEvent(@NonNull AdInStreamEvent event) {
         Log.d(TAG, "==========event " + event.getEventType() + " - " + event.getCampaignId());
