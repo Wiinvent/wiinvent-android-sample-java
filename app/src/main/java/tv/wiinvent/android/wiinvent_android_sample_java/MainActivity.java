@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.Home360InStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.WelcomeAdActivity;
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
     findViewById(R.id.votingBtn).setOnClickListener(v -> {
       Intent intent = new Intent(MainActivity.this, GameActivity.class);
+      startActivity(intent);
+    });
+
+    findViewById(R.id.instream360Btn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, Home360InStreamActivity.class);
       startActivity(intent);
     });
 

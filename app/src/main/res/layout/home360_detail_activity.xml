@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="240dp">
+
+  <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+    android:id="@+id/video_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:layout_gravity="center">
+
+    <com.google.android.exoplayer2.ui.PlayerView
+      android:id="@+id/player_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:visibility="visible"
+      app:use_controller="false"
+      />
+    <com.google.android.exoplayer2.ui.PlayerView
+      android:id="@+id/player_view_spherical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:visibility="gone"
+      app:use_controller="false"
+      app:surface_type="spherical_gl_surface_view"
+      />
+
+    <tv.wiinvent.wiinventsdk.ui.OverlayView
+      android:id="@+id/wisdk_overlay_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+    <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+
+      <com.google.android.exoplayer2.ui.SubtitleView
+        android:id="@+id/subtitles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <ImageView
+      android:id="@+id/player_cover_iv"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/black"
+      android:src="@drawable/exo_icon_circular_play"
+      android:visibility="gone" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_centerInParent="true"
+      android:layout_gravity="bottom">
+      <TextView
+        android:id="@+id/text_live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect_btn_ok"
+        android:text="Live"
+        android:textStyle="bold"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="20dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textSize="11sp"
+        android:visibility="visible"
+        />
+
+      <SeekBar
+        android:id="@+id/seek_bar_pip"
+        android:splitTrack="false"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        android:indeterminateDrawable="@drawable/continue_progress_bar"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/continue_progress_bar"
+        android:thumbTint="@android:color/transparent"
+        />
+    </LinearLayout>
+
+  </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
+
+  <LinearLayout
+    android:id="@+id/player_control_root_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:id="@+id/player_control_container_hover_rl"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#449E9E9E"
+      android:orientation="vertical">
+
+
+    </LinearLayout>
+  </LinearLayout>
+</FrameLayout>
