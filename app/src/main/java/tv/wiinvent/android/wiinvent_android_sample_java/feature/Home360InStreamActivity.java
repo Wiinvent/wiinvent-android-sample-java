@@ -11,6 +11,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.ads.interactivemedia.v3.api.FriendlyObstruction;
+import com.google.ads.interactivemedia.v3.api.FriendlyObstructionPurpose;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
@@ -24,6 +26,9 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds;
@@ -132,12 +137,22 @@ public class Home360InStreamActivity extends AppCompatActivity {
       }
     });
 
+    //khai bao friendly obstruction
+    List<FriendlyObstruction> friendlyObstructionList = new ArrayList<>();
+    FriendlyObstruction skipButtonObstruction = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        skipButton,
+        FriendlyObstructionPurpose.CLOSE_AD,
+        "This is close ad"
+    );
+
+    friendlyObstructionList.add(skipButtonObstruction);
+
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId(SAMPLE_CHANNEL_ID)
         .streamId(SAMPLE_STREAM_ID)
         .build();
 
-    InStreamManager.Companion.getInstance().requestAds(adsRequestData);
+    InStreamManager.Companion.getInstance().requestAds(adsRequestData, friendlyObstructionList);
   }
 
   private MediaSource buildMediaSource(DataSource.Factory dataSourceFactory, String url) {
