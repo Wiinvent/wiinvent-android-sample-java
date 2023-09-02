@@ -28,12 +28,6 @@
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:name=".feature.WelcomeAdActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="fullSensor"
             android:name=".feature.InStreamActivity"
             android:exported="true">
         </activity>
