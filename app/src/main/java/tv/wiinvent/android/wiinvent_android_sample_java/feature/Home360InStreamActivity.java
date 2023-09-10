@@ -44,7 +44,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
 
   public static final String SAMPLE_ACCOUNT_ID = "14";
   public static final String SAMPLE_CHANNEL_ID = "998989";
-  public static final String SAMPLE_STREAM_ID = "667788";
+  public static final String SAMPLE_STREAM_ID = "999999";
 
   private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
 
@@ -70,7 +70,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
 
     exoplayer = new SimpleExoPlayer.Builder(getBaseContext()).build();
     exoplayerView.setPlayer(exoplayer);
-//    exoplayerView.setUseController(true);
+    exoplayerView.setUseController(false);
 
     PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
     playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY |

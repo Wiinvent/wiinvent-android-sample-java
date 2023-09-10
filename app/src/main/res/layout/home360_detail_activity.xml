@@ -42,6 +42,7 @@
         android:id="@+id/subtitles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
     <ImageView
@@ -89,6 +90,15 @@
         android:thumbTint="@android:color/transparent"
         />
     </LinearLayout>
+
+    <tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds
+      android:id="@+id/skip_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|right"
+      android:layout_marginBottom="20dp"
+      android:layout_marginLeft="5dp"
+      android:visibility="gone"/>
 
   </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
 
