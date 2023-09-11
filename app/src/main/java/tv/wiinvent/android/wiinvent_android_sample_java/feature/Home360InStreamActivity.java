@@ -97,7 +97,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
 
       @Override
       public void onTimeout() {
-
+        InStreamManager.Companion.getInstance().release();
       }
 
       @Override
