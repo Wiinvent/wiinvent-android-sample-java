@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.ads.interactivemedia.v3.api.FriendlyObstruction;
+import com.google.ads.interactivemedia.v3.api.FriendlyObstructionPurpose;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -35,6 +37,9 @@ import com.google.android.exoplayer2.util.Util;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds;
 import tv.wiinvent.wiinventsdk.InStreamManager;
@@ -52,7 +57,7 @@ import tv.wiinvent.wiinventsdk.ui.OverlayView;
 public class InStreamActivity extends AppCompatActivity {
   public static final String TAG = InStreamActivity.class.getCanonicalName();
 
-  public static final String SAMPLE_ACCOUNT_ID = "4";
+  public static final String SAMPLE_ACCOUNT_ID = "14";
   public static final String SAMPLE_CHANNEL_ID = "998989";
   public static final String SAMPLE_STREAM_ID = "999999";
 
@@ -71,6 +76,7 @@ public class InStreamActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_instream);
+    getSupportActionBar().hide();
 
     exoplayerView = findViewById(R.id.simple_exo_player_view);
     fullscreenButton = findViewById(R.id.exo_fullscreen_icon);
@@ -99,7 +105,7 @@ public class InStreamActivity extends AppCompatActivity {
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
-    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.PRODUCTION, 10, 10, 10, LevelLog.BODY, 5, true);
+    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 10, 10, 10, LevelLog.BODY, 5, true);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
       @Override
       public void showSkipButton(int duration) {
@@ -151,12 +157,22 @@ public class InStreamActivity extends AppCompatActivity {
       }
     });
 
+    //khai bao friendly obstruction
+    List<FriendlyObstruction> friendlyObstructionList = new ArrayList<>();
+    FriendlyObstruction skipButtonObstruction = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        skipButton,
+        FriendlyObstructionPurpose.CLOSE_AD,
+        "This is close ad"
+    );
+
+    friendlyObstructionList.add(skipButtonObstruction);
+
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId(SAMPLE_CHANNEL_ID)
         .streamId(SAMPLE_STREAM_ID)
         .build();
 
-    InStreamManager.Companion.getInstance().requestAds(adsRequestData);
+    InStreamManager.Companion.getInstance().requestAds(adsRequestData, friendlyObstructionList);
 
     fullscreenButton.setOnClickListener(v -> {
       if (fullscreen) {

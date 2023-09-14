@@ -58,6 +58,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.home360_detail_activity);
+    getSupportActionBar().hide();
 
     exoplayerView = findViewById(R.id.player_view);
     skipButton = findViewById(R.id.skip_button);

@@ -25,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     setContentView(R.layout.activity_main);
+    getSupportActionBar().hide();
+
 
     findViewById(R.id.instreamBtn).setOnClickListener(v -> {
       Intent intent = new Intent(MainActivity.this, InStreamActivity.class);
