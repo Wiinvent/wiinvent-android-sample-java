@@ -33,5 +33,6 @@ public class TV360SkipAdsButtonAds extends SkipAdsButtonAds {
       getSkipButton().setOnClickListener((OnClickListener) this);
     }
     this.setSkipLabel("Bỏ qua quảng cáo");
+    this.setIconDrawable(R.drawable.next_white);
   }
 }
