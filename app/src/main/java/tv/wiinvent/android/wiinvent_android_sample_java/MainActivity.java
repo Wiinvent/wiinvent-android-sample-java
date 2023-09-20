@@ -8,6 +8,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.Home360InStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_main);
-    getSupportActionBar().hide();
+    Objects.requireNonNull(getSupportActionBar()).hide();
 
 
     findViewById(R.id.instreamBtn).setOnClickListener(v -> {

@@ -24,7 +24,7 @@ public class GameActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
     Objects.requireNonNull(getSupportActionBar()).hide();
     setContentView(R.layout.activity_game);
 

@@ -132,7 +132,7 @@ public class OverlayActivity extends AppCompatActivity {
             getSupportActionBar().show();
           }
 
-          setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+          setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
           //player
           ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) exoplayerView.getLayoutParams();

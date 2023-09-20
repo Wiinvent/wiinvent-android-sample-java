@@ -29,6 +29,7 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds;
@@ -58,7 +59,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.home360_detail_activity);
-    getSupportActionBar().hide();
+    Objects.requireNonNull(getSupportActionBar()).hide();
 
     exoplayerView = findViewById(R.id.player_view);
     skipButton = findViewById(R.id.skip_button);
@@ -89,7 +90,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
     InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 10, 10, 10, LevelLog.BODY, 5, true);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
       @Override
-      public void showSkipButton(int duration) {
+      public void showSkipButton(@NonNull String campaignId, int duration) {
         Log.d(TAG, "=========InStreamManager showSkipButton " + duration + " --- " + skipButton);
         if(skipButton != null) {
           skipButton.startCountdown(duration);
@@ -102,7 +103,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
       }
 
       @Override
-      public void hideSkipButton() {
+      public void hideSkipButton(@NonNull String campaignId) {
         Log.d(TAG, "=========InStreamManager hideSkipButton ");
 
         if(skipButton != null) {
