@@ -45,7 +45,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
 
   public static final String SAMPLE_ACCOUNT_ID = "14";
   public static final String SAMPLE_CHANNEL_ID = "998989";
-  public static final String SAMPLE_STREAM_ID = "999999";
+  public static final String SAMPLE_STREAM_ID = "999998";
 
   private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
 
