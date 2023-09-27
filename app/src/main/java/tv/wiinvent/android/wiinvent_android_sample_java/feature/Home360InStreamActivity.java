@@ -192,4 +192,21 @@ public class Home360InStreamActivity extends AppCompatActivity {
 
     InStreamManager.Companion.getInstance().release();
   }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+
+    if(skipButton != null) {
+      skipButton.pause();
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if(skipButton != null) {
+      skipButton.resume();
+    }
+  }
 }
