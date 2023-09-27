@@ -109,6 +109,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
         if(skipButton != null) {
           skipButton.hide();
         }
+
       }
 
       @Override
