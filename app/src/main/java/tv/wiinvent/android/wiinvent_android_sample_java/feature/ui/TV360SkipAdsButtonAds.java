@@ -2,6 +2,7 @@ package tv.wiinvent.android.wiinvent_android_sample_java.feature.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,5 +35,11 @@ public class TV360SkipAdsButtonAds extends SkipAdsButtonAds {
     }
     this.setSkipLabel("Bỏ qua quảng cáo");
     this.setIconDrawable(R.drawable.next_white);
+  }
+
+  @Override
+  public void allowSkipState() {
+    super.allowSkipState();
+    Log.d(TAG, "=========allowSkipState");
   }
 }
