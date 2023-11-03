@@ -87,8 +87,13 @@ public class Home360InStreamActivity extends AppCompatActivity {
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
-    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 10, 10, 10, LevelLog.BODY, 5, true);
+    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 5, 5, 5, 2000, LevelLog.BODY, 8, true);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+      @Override
+      public void onEventSkip(@NonNull String s) {
+
+      }
+
       @Override
       public void showSkipButton(@NonNull String campaignId, int duration) {
         Log.d(TAG, "=========InStreamManager showSkipButton " + duration + " --- " + skipButton);
@@ -201,6 +206,8 @@ public class Home360InStreamActivity extends AppCompatActivity {
     if(skipButton != null) {
       skipButton.pause();
     }
+
+    InStreamManager.Companion.getInstance().onPause();
   }
 
   @Override
@@ -209,5 +216,7 @@ public class Home360InStreamActivity extends AppCompatActivity {
     if(skipButton != null) {
       skipButton.resume();
     }
+
+    InStreamManager.Companion.getInstance().onResume();
   }
 }

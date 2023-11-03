@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Khoi tao welcome
     welcomeAdView = findViewById(R.id.welcome_ad_view);
-    AdsWelcomeManager.Companion.getInstance().init(getBaseContext(),  "14", DeviceType.PHONE, Environment.SANDBOX, 10, "", true);
+    AdsWelcomeManager.Companion.getInstance().init(getBaseContext(),  "14", DeviceType.PHONE, Environment.SANDBOX, 5, 5, 5, 2000, "", true);
     AdsWelcomeManager.Companion.getInstance().addWelcomeListener(new WelcomeAdsEventListener() {
       @Override
       public void onDisplayAds() {

@@ -106,8 +106,13 @@ public class InStreamActivity extends AppCompatActivity {
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
     MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
 
-    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 10, 10, 10, LevelLog.BODY, 5, true);
+    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 5, 5, 5, 2000, LevelLog.BODY, 8, true);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+      @Override
+      public void onEventSkip(@NonNull String s) {
+
+      }
+
       @Override
       public void showSkipButton(@NonNull String campaignId, int duration) {
         Log.d(TAG, "=========InStreamManager showSkipButton " + duration + " --- " + skipButton);
@@ -118,7 +123,7 @@ public class InStreamActivity extends AppCompatActivity {
 
       @Override
       public void onTimeout() {
-
+        InStreamManager.Companion.getInstance().release();
       }
 
       @Override
@@ -137,7 +142,7 @@ public class InStreamActivity extends AppCompatActivity {
 
       @Override
       public void onResponse(@NonNull ImaAdsLoader imaAdsLoader) {
-        Log.d(TAG, "==========onResponse " + imaAdsLoader.toString());
+        Log.d(TAG, "==========onResponse " + imaAdsLoader);
 
         imaAdsLoader.setPlayer(exoplayer);
         AdsMediaSource adsMediaSource = new AdsMediaSource(
@@ -151,10 +156,7 @@ public class InStreamActivity extends AppCompatActivity {
       public void onFailure() {
         Log.d(TAG, "==========onFailure ");
 
-        if(mediaSource != null)
-          exoplayer.prepare(mediaSource);
-
-        exoplayer.setPlayWhenReady(true);
+        InStreamManager.Companion.getInstance().release();
       }
     });
 
@@ -262,5 +264,29 @@ public class InStreamActivity extends AppCompatActivity {
     }
 
     InStreamManager.Companion.getInstance().release();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    if(exoplayer != null)
+      exoplayer.setPlayWhenReady(false);
+
+    if(skipButton != null)
+      skipButton.pause();
+
+    InStreamManager.Companion.getInstance().onPause();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if(exoplayer != null)
+      exoplayer.setPlayWhenReady(true);
+
+    if(skipButton != null)
+      skipButton.resume();
+
+    InStreamManager.Companion.getInstance().onResume();
   }
 }
