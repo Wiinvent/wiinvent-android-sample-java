@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.ads.interactivemedia.v3.api.FriendlyObstruction;
 import com.google.ads.interactivemedia.v3.api.FriendlyObstructionPurpose;
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -73,6 +74,21 @@ public class Home360InStreamActivity extends AppCompatActivity {
     exoplayer = new SimpleExoPlayer.Builder(getBaseContext()).build();
     exoplayerView.setPlayer(exoplayer);
     exoplayerView.setUseController(false);
+    exoplayer.addListener(new Player.EventListener() {
+      @Override
+      public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        switch (playbackState) {
+          case Player.STATE_READY:
+            Log.d(TAG, "==========STATE_READY");
+            InStreamManager.Companion.getInstance().playerStateReady();
+            break;
+          case Player.STATE_BUFFERING:
+          case Player.STATE_ENDED:
+          case Player.STATE_IDLE:
+            break;
+        }
+      }
+    });
 
     PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
     playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY |
@@ -203,20 +219,20 @@ public class Home360InStreamActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
 
-    if(skipButton != null) {
+    if(skipButton != null)
       skipButton.pause();
-    }
 
-    InStreamManager.Companion.getInstance().onPause();
+    if(exoplayer != null)
+      exoplayer.setPlayWhenReady(false);
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    if(skipButton != null) {
+    if(skipButton != null)
       skipButton.resume();
-    }
 
-    InStreamManager.Companion.getInstance().onResume();
+    if(exoplayer != null)
+      exoplayer.setPlayWhenReady(true);
   }
 }

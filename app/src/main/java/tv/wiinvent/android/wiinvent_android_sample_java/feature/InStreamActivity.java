@@ -92,6 +92,21 @@ public class InStreamActivity extends AppCompatActivity {
     exoplayer = new SimpleExoPlayer.Builder(getBaseContext()).build();
     exoplayerView.setPlayer(exoplayer);
     exoplayerView.setUseController(true);
+    exoplayer.addListener(new Player.EventListener() {
+      @Override
+      public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        switch (playbackState) {
+          case Player.STATE_READY:
+            Log.d(TAG, "==========STATE_READY");
+            InStreamManager.Companion.getInstance().playerStateReady();
+            break;
+          case Player.STATE_BUFFERING:
+          case Player.STATE_ENDED:
+          case Player.STATE_IDLE:
+            break;
+        }
+      }
+    });
 
     PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
     playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY |
@@ -274,8 +289,6 @@ public class InStreamActivity extends AppCompatActivity {
 
     if(skipButton != null)
       skipButton.pause();
-
-    InStreamManager.Companion.getInstance().onPause();
   }
 
   @Override
@@ -286,7 +299,5 @@ public class InStreamActivity extends AppCompatActivity {
 
     if(skipButton != null)
       skipButton.resume();
-
-    InStreamManager.Companion.getInstance().onResume();
   }
 }

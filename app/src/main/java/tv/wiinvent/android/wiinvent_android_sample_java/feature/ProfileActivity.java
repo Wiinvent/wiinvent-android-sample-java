@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
         .type(OverlayData.OverlayType.PROFILE)
         .accountId(SAMPLE_ACCOUNT_ID)
         .thirdPartyToken(SAMPLE_TOKEN)
-        .env(OverlayData.Environment.DEV)
+        .env(OverlayData.Environment.SANDBOX)
         .deviceType(OverlayData.DeviceType.PHONE)
         .build();
 

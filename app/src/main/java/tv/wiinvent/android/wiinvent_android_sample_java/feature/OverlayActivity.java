@@ -185,7 +185,7 @@ public class OverlayActivity extends AppCompatActivity {
         .channelId(SAMPLE_CHANNEL_ID)
         .streamId(SAMPLE_STREAM_ID)
         .thirdPartyToken(SAMPLE_TOKEN)
-        .env(OverlayData.Environment.DEV)
+        .env(OverlayData.Environment.SANDBOX)
         .deviceType(OverlayData.DeviceType.PHONE)
         .contentType(OverlayData.ContentType.LIVESTREAM)
         .build();
