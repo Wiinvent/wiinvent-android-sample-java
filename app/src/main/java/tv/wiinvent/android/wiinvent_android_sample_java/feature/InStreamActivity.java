@@ -1,21 +1,19 @@
 package tv.wiinvent.android.wiinvent_android_sample_java.feature;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.google.ads.interactivemedia.v3.api.FriendlyObstruction;
 import com.google.ads.interactivemedia.v3.api.FriendlyObstructionPurpose;
@@ -23,7 +21,6 @@ import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.ads.AdsMediaSource;
@@ -35,8 +32,6 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,16 +39,12 @@ import java.util.Objects;
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds;
 import tv.wiinvent.wiinventsdk.InStreamManager;
-import tv.wiinvent.wiinventsdk.OverlayManager;
-import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
 import tv.wiinvent.wiinventsdk.logging.LevelLog;
-import tv.wiinvent.wiinventsdk.models.OverlayData;
 import tv.wiinvent.wiinventsdk.models.ads.AdInStreamEvent;
 import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
+import tv.wiinvent.wiinventsdk.models.type.ContentType;
 import tv.wiinvent.wiinventsdk.models.type.DeviceType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
-import tv.wiinvent.wiinventsdk.network.WiApiClient;
-import tv.wiinvent.wiinventsdk.ui.OverlayView;
 
 public class InStreamActivity extends AppCompatActivity {
   public static final String TAG = InStreamActivity.class.getCanonicalName();
@@ -107,15 +98,6 @@ public class InStreamActivity extends AppCompatActivity {
         }
       }
     });
-
-    PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
-    playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY |
-        PlaybackStateCompat.ACTION_PAUSE |
-        PlaybackStateCompat.ACTION_FAST_FORWARD);
-
-    MediaSessionCompat mediaSession = new MediaSessionCompat(getBaseContext(), "ExoPlayer", componentName, null);
-    mediaSession.setPlaybackState(playbackStateBuilder.build());
-    mediaSession.setActive(true);
 
     String userAgent = Util.getUserAgent(getApplicationContext(), "Exo");
     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getBaseContext(), userAgent);
@@ -188,6 +170,11 @@ public class InStreamActivity extends AppCompatActivity {
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId(SAMPLE_CHANNEL_ID)
         .streamId(SAMPLE_STREAM_ID)
+        .contentType(ContentType.VOD)
+        .title("Day la title cua noi dung")
+        .category("danh muc 1, danh muc 2")
+        .keyword("key word 1, keyword 2")
+        .transId("01sssss")
         .build();
 
     InStreamManager.Companion.getInstance().requestAds(adsRequestData, friendlyObstructionList);

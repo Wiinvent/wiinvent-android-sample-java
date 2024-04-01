@@ -14,13 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Instream" />
-
-        <Button
-          android:id="@+id/instream360Btn"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Instream 360" />
+            android:text="Instream Normal" />
 
         <Button
             android:id="@+id/votingBtn"

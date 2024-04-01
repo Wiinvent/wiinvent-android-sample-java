@@ -42,11 +42,6 @@
             android:screenOrientation="fullSensor"
             android:name=".feature.ProfileActivity">
         </activity>
-        <activity
-          android:configChanges="keyboardHidden|orientation|screenSize"
-          android:screenOrientation="fullSensor"
-          android:name=".feature.Home360InStreamActivity">
-        </activity>
     </application>
 
 </manifest>
