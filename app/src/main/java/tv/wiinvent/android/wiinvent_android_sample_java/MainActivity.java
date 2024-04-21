@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import tv.wiinvent.android.wiinvent_android_sample_java.feature.GameActivity;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.BannerActivity;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.backup.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
 import tv.wiinvent.wiinventsdk.AdsWelcomeManager;
 import tv.wiinvent.wiinventsdk.interfaces.welcome.WelcomeAdsEventListener;
@@ -83,16 +84,26 @@ public class MainActivity extends AppCompatActivity {
 
     findViewById(R.id.welcomeBtn).setOnClickListener(v -> {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
-          .transId("300000").build();
+          .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
+          .uid20("") // unified id 2.0, nếu không có thì set ""
+          .build();
 
       AdsWelcomeManager.Companion.getInstance().requestAds(this,
           R.id.welcome_ad_view,
           R.layout.wisdk_welcome_tvc_detail,
           R.id.wisdk_exo_player_view,
           R.id.wisdk_skip_button,
-          0,
-          0,
+          R.layout.wisdk_welcome_combo_detail,
+          R.layout.wisdk_welcome_banner_sdk_detail,
+          R.id.wisdk_web_view,
+          R.id.wisdk_background_img,
           adsRequestData);
+    });
+
+    // ===> banner
+    findViewById(R.id.bannerBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, BannerActivity.class);
+      startActivity(intent);
     });
   }
 }

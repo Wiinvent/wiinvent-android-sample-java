@@ -34,13 +34,18 @@
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:name=".feature.GameActivity"
+            android:name=".feature.backup.GameActivity"
             android:exported="true">
         </activity>
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:name=".feature.ProfileActivity">
+            android:name=".feature.backup.ProfileActivity">
+        </activity>
+        <activity
+          android:configChanges="keyboardHidden|orientation|screenSize"
+          android:screenOrientation="fullSensor"
+          android:name=".feature.BannerActivity">
         </activity>
     </application>
 

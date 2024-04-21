@@ -50,8 +50,6 @@ public class InStreamActivity extends AppCompatActivity {
   public static final String TAG = InStreamActivity.class.getCanonicalName();
 
   public static final String SAMPLE_ACCOUNT_ID = "14";
-  public static final String SAMPLE_CHANNEL_ID = "998989";
-  public static final String SAMPLE_STREAM_ID = "999999";
 
   private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
 
@@ -168,13 +166,14 @@ public class InStreamActivity extends AppCompatActivity {
     friendlyObstructionList.add(skipButtonObstruction);
 
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
-        .channelId(SAMPLE_CHANNEL_ID)
-        .streamId(SAMPLE_STREAM_ID)
-        .contentType(ContentType.VOD)
-        .title("Day la title cua noi dung")
-        .category("danh muc 1, danh muc 2")
-        .keyword("key word 1, keyword 2")
-        .transId("01sssss")
+        .channelId("998989,222222") //danh sách id của category & cách nhau bằng dấu ,
+        .streamId("999999") // id nội dung
+        .contentType(ContentType.FILM) //content type FIRM | TV | VIDEO
+        .title("Day la title cua noi dung") // tiêu đề nội dung
+        .category("danh muc 1, danh muc 2") // danh sach tiêu đề của category & cách nhau bằng dấu ,
+        .keyword("key word 1, keyword 2") //từ khoá nếu có | để "" nếu ko có
+        .transId("01sssss") //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
+        .uid20("") // unified id 2.0, nếu không có thì set ""
         .build();
 
     InStreamManager.Companion.getInstance().requestAds(adsRequestData, friendlyObstructionList);

@@ -4,37 +4,55 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-        <Button
-            android:id="@+id/instreamBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Instream Normal" />
+    <Button
+      android:id="@+id/instreamBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="40dp"
+      android:paddingLeft="20dp"
+      android:paddingRight="20dp"
+      android:layout_gravity="center_horizontal"
+      android:text="Instream" />
 
-        <Button
-            android:id="@+id/votingBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Voting Game"
-            android:visibility="gone"/>
+    <Button
+      android:id="@+id/votingBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingRight="20dp"
+      android:paddingLeft="20dp"
+      android:layout_gravity="center_horizontal"
+      android:text="Voting Game"
+      android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/welcomeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome" />
+    <Button
+      android:id="@+id/welcomeBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingRight="20dp"
+      android:paddingLeft="20dp"
+      android:layout_gravity="center_horizontal"
+      android:text="Welcome" />
 
-    </LinearLayout>
+    <Button
+      android:id="@+id/bannerBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingRight="20dp"
+      android:paddingLeft="20dp"
+      android:layout_gravity="center_horizontal"
+      android:text="Banner" />
 
-    <tv.wiinvent.wiinventsdk.ui.welcomead.WelcomeAdView
-      android:id="@+id/welcome_ad_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:visibility="gone"
-      />
+  </LinearLayout>
+
+  <tv.wiinvent.wiinventsdk.ui.welcomead.WelcomeAdView
+    android:id="@+id/welcome_ad_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

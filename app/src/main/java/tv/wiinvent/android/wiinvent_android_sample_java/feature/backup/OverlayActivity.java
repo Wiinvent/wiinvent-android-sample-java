@@ -1,4 +1,4 @@
-package tv.wiinvent.android.wiinvent_android_sample_java.feature;
+package tv.wiinvent.android.wiinvent_android_sample_java.feature.backup;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -20,11 +19,9 @@ import androidx.core.content.ContextCompat;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
@@ -36,15 +33,9 @@ import com.google.android.exoplayer2.util.Util;
 import org.jetbrains.annotations.Nullable;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
-import tv.wiinvent.wiinventsdk.InStreamManager;
 import tv.wiinvent.wiinventsdk.OverlayManager;
 import tv.wiinvent.wiinventsdk.interfaces.PlayerChangeListener;
 import tv.wiinvent.wiinventsdk.models.OverlayData;
-import tv.wiinvent.wiinventsdk.models.ads.AdInStreamEvent;
-import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
-import tv.wiinvent.wiinventsdk.models.type.DeviceType;
-import tv.wiinvent.wiinventsdk.models.type.Environment;
-import tv.wiinvent.wiinventsdk.network.WiApiClient;
 import tv.wiinvent.wiinventsdk.ui.OverlayView;
 
 public class OverlayActivity extends AppCompatActivity {

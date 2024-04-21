@@ -1,4 +1,4 @@
-package tv.wiinvent.android.wiinvent_android_sample_java.feature;
+package tv.wiinvent.android.wiinvent_android_sample_java.feature.backup;
 
 import android.os.Bundle;
 import android.view.Window;
