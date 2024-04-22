@@ -168,7 +168,7 @@ public class InStreamActivity extends AppCompatActivity {
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId("998989,222222") //danh sách id của category & cách nhau bằng dấu ,
         .streamId("999999") // id nội dung
-        .contentType(ContentType.FILM) //content type FIRM | TV | VIDEO
+        .contentType(ContentType.FILM) //content type TV | FILM | VIDEO
         .title("Day la title cua noi dung") // tiêu đề nội dung
         .category("danh muc 1, danh muc 2") // danh sach tiêu đề của category & cách nhau bằng dấu ,
         .keyword("key word 1, keyword 2") //từ khoá nếu có | để "" nếu ko có

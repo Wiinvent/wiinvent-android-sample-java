@@ -97,7 +97,7 @@ public class BannerActivity extends AppCompatActivity {
   private void showBanner(BannerAdSize adSize) {
     BannerAdsRequestData bannerAdsRequestData = new BannerAdsRequestData.Builder()
         .adSize(adSize) //các loại banner
-        .contentType(ContentType.FILM) //content type FIRM | TV | VIDEO
+        .contentType(ContentType.FILM) //content type TV | FILM | VIDEO
         .channelId("998989,2222") // danh sach category id cach nhau bang dau ,
         .streamId("999999") // id nội dung
         .title("Day la title noi dung") // tiêu đề nội dung
