@@ -15,7 +15,7 @@
     app:layout_constraintLeft_toLeftOf="parent"
     android:contentDescription="Background" />
 
-  <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+  <com.google.android.exoplayer2.ui.StyledPlayerView
     android:id="@+id/wisdk_exo_player_view"
     android:layout_width="0dp"
     android:layout_height="0dp"

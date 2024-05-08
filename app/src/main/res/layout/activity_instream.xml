@@ -13,7 +13,7 @@
     android:background="@color/black"
     android:layout_gravity="center">
     <!-- ExoPlayer View here -->
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+    <com.google.android.exoplayer2.ui.StyledPlayerView
       android:id="@+id/simple_exo_player_view"
       android:layout_width="match_parent"
       android:layout_height="240dp"
