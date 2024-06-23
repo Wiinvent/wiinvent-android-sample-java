@@ -158,7 +158,7 @@ public class InStreamActivity extends AppCompatActivity {
 
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId("998989,222222") // danh sách id của category của nội dung & cách nhau bằng dấu ,
-        .streamId("999999") // id nội dung
+        .streamId("0877") // id nội dung
         .contentType(ContentType.FILM) //content type TV | FILM | VIDEO
         .title("Highlights Áo vs Thổ Nhĩ Kỳ | Giao Hữu Quốc Tế 2024") // tiêu đề nội dung
         .category("danh muc 1, danh muc 2") // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ,
