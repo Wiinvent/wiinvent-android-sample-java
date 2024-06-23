@@ -1,25 +1,19 @@
 package tv.wiinvent.android.wiinvent_android_sample_java.feature;
 
 import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import com.google.ads.interactivemedia.v3.api.FriendlyObstruction;
 import com.google.ads.interactivemedia.v3.api.FriendlyObstructionPurpose;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.drm.DefaultDrmSessionManager;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.drm.FrameworkMediaDrm;
@@ -34,11 +28,8 @@ import com.google.android.exoplayer2.source.dash.manifest.DashManifest;
 import com.google.android.exoplayer2.source.dash.manifest.DashManifestParser;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.exoplayer2.upstream.cache.Cache;
@@ -61,6 +52,7 @@ import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
 import tv.wiinvent.wiinventsdk.models.type.ContentType;
 import tv.wiinvent.wiinventsdk.models.type.DeviceType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
+import tv.wiinvent.wiinventsdk.ui.FriendlyPlayerView;
 
 public class InStreamActivity extends AppCompatActivity {
   private static final String DRM_LICENSE_URL = "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test";
@@ -68,11 +60,21 @@ public class InStreamActivity extends AppCompatActivity {
 
   public static final String TAG = InStreamActivity.class.getCanonicalName();
   public static final String SAMPLE_ACCOUNT_ID = "14";
-  private StyledPlayerView playerView = null;
+  private FriendlyPlayerView playerView = null;
   private ExoPlayer player;
-  private Boolean fullscreen = false;
-  private ImageView fullscreenButton = null;
+
+  private View videoZoomStatus = null;
+  private View playerViewSpherical = null;
+  private View overlayView = null;
+  private View subtitlesView = null;
+  private View playerCoverIv = null;
+  private View controlView = null;
   private TV360SkipAdsButtonAds skipButton = null;
+  private View containerDonateMessage = null;
+  private View playerTopBarLl = null;
+  private View layoutListEpisodesFullscreen = null;
+  private View txtFingerPrint = null;
+
 
   @SuppressLint("MissingInflatedId")
   @Override
@@ -81,67 +83,21 @@ public class InStreamActivity extends AppCompatActivity {
     setContentView(R.layout.activity_instream);
     Objects.requireNonNull(getSupportActionBar()).hide();
 
-    playerView = findViewById(R.id.simple_exo_player_view);
-    fullscreenButton = findViewById(R.id.exo_fullscreen_icon);
+    playerView = findViewById(R.id.player_view);
+
+    videoZoomStatus = findViewById(R.id.video_zoom_status);
+    playerViewSpherical = findViewById(R.id.player_view_spherical);
+    overlayView = findViewById(R.id.wisdk_overlay_view);
+    subtitlesView = findViewById(R.id.subtitles_view);
+    playerCoverIv = findViewById(R.id.player_cover_iv);
+    controlView = findViewById(R.id.control_view);
     skipButton = findViewById(R.id.skip_button);
+    containerDonateMessage = findViewById(R.id.container_donate_message);
+    playerTopBarLl = findViewById(R.id.player_top_bar_ll);
+    layoutListEpisodesFullscreen = findViewById(R.id.layout_list_episodes_fullscreen);
+    txtFingerPrint = findViewById(R.id.txtFingerPrint);
 
     initializePlayerAndVast();
-//    initFullscreen();
-  }
-
-  private void initFullscreen() {
-
-    fullscreenButton.setOnClickListener(v -> {
-      if (fullscreen) {
-        fullscreenButton.setImageDrawable(
-            ContextCompat.getDrawable(
-                getBaseContext(),
-                R.drawable.ic_fullscreen_open
-            )
-        );
-
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-        if (getSupportActionBar() != null) {
-          getSupportActionBar().show();
-        }
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        //player
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) playerView.getLayoutParams();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = (int) (250 * getApplicationContext().getResources()
-            .getDisplayMetrics().density);
-        playerView.setLayoutParams(params);
-
-        fullscreen = false;
-      } else {
-        fullscreenButton.setImageDrawable(
-            ContextCompat.getDrawable(
-                getBaseContext(),
-                R.drawable.ic_fullscreen_close
-            )
-        );
-
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-        if (getSupportActionBar() != null) {
-          getSupportActionBar().hide();
-        }
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        //player
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) playerView.getLayoutParams();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        playerView.setLayoutParams(params);
-
-        fullscreen = true;
-      }
-    });
   }
 
   private void initializePlayerAndVast() {
@@ -168,7 +124,7 @@ public class InStreamActivity extends AppCompatActivity {
       @Override
       public void showSkipButton(@NonNull String campaignId, int duration) {
         Log.d(TAG, "=========InStreamManager showSkipButton " + duration + " --- " + skipButton);
-        if(skipButton != null) {
+        if (skipButton != null) {
           skipButton.startCountdown(duration);
         }
       }
@@ -177,7 +133,7 @@ public class InStreamActivity extends AppCompatActivity {
       public void hideSkipButton(@NonNull String campaignId) {
         Log.d(TAG, "=========InStreamManager hideSkipButton ");
 
-        if(skipButton != null) {
+        if (skipButton != null) {
           skipButton.hide();
         }
       }
@@ -197,15 +153,8 @@ public class InStreamActivity extends AppCompatActivity {
 
 //    String contentUrl = "https://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
 
-
     //khai bao friendly obstruction
-    List<FriendlyObstruction> friendlyObstructionList = new ArrayList<>();
-    FriendlyObstruction skipButtonObstruction = InStreamManager.Companion.getInstance().createFriendlyObstruction(
-        skipButton,
-        FriendlyObstructionPurpose.CLOSE_AD,
-        "This is close ad"
-    );
-    friendlyObstructionList.add(skipButtonObstruction);
+    registerFriendlyObstruction();
 
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId("998989,222222") // danh sách id của category của nội dung & cách nhau bằng dấu ,
@@ -231,14 +180,101 @@ public class InStreamActivity extends AppCompatActivity {
             mediaSource,
             playerView,
             player,
-            defaultMediaSourceFactory,
-            friendlyObstructionList);
+            defaultMediaSourceFactory);
 
     player.addMediaSource(adsMediaSource);
     player.prepare();
 
     player.setPlayWhenReady(true);
   }
+
+  private void registerFriendlyObstruction() {
+    // Khai bao friendly obstruction
+    List<FriendlyObstruction> friendlyObstructionList = new ArrayList<>();
+
+    FriendlyObstruction videoZoomStatusOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        videoZoomStatus,
+        FriendlyObstructionPurpose.VIDEO_CONTROLS,
+        "Video zoom status"
+    );
+    friendlyObstructionList.add(videoZoomStatusOb);
+
+    FriendlyObstruction playerViewSphericalOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        playerViewSpherical,
+        FriendlyObstructionPurpose.OTHER,
+        "Player other"
+    );
+    friendlyObstructionList.add(playerViewSphericalOb);
+
+    FriendlyObstruction overlayViewOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        overlayView,
+        FriendlyObstructionPurpose.OTHER,
+        "Overlay"
+    );
+    friendlyObstructionList.add(overlayViewOb);
+
+    FriendlyObstruction subtitlesViewOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        subtitlesView,
+        FriendlyObstructionPurpose.OTHER,
+        "Subtitles"
+    );
+    friendlyObstructionList.add(subtitlesViewOb);
+
+    FriendlyObstruction playerCoverIvOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        playerCoverIv,
+        FriendlyObstructionPurpose.OTHER,
+        "Player Cover"
+    );
+    friendlyObstructionList.add(playerCoverIvOb);
+
+    FriendlyObstruction controlViewOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        controlView,
+        FriendlyObstructionPurpose.VIDEO_CONTROLS,
+        "Control"
+    );
+    friendlyObstructionList.add(controlViewOb);
+
+    FriendlyObstruction skipAdsButtonAdsOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        skipButton,
+        FriendlyObstructionPurpose.CLOSE_AD,
+        "Skip Button"
+    );
+    friendlyObstructionList.add(skipAdsButtonAdsOb);
+
+    FriendlyObstruction containerDonateMessageOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        containerDonateMessage,
+        FriendlyObstructionPurpose.OTHER,
+        "Container Donate"
+    );
+    friendlyObstructionList.add(containerDonateMessageOb);
+
+    FriendlyObstruction playerTopBarLlOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        playerTopBarLl,
+        FriendlyObstructionPurpose.OTHER,
+        "Top Bar"
+    );
+    friendlyObstructionList.add(playerTopBarLlOb);
+
+    FriendlyObstruction layoutListEpisodesFullscreenOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        layoutListEpisodesFullscreen,
+        FriendlyObstructionPurpose.OTHER,
+        "Episodes Fullscreen"
+    );
+    friendlyObstructionList.add(layoutListEpisodesFullscreenOb);
+
+    FriendlyObstruction txtFingerPrintOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        txtFingerPrint,
+        FriendlyObstructionPurpose.OTHER,
+        "Txt FingerPrint"
+    );
+    friendlyObstructionList.add(txtFingerPrintOb);
+
+    if (playerView != null) {
+      Log.d(TAG, "============register friendly obstruction size: " + friendlyObstructionList.size());
+      playerView.addFriendlyObstructionList(friendlyObstructionList);
+    }
+  }
+
 
   private DrmSessionManager getDrmSessionManager(DefaultHttpDataSource.Factory dataSourceFactory) {
     try {
@@ -252,6 +288,7 @@ public class InStreamActivity extends AppCompatActivity {
   public DataSource.Factory buildDataSourceFactory(DefaultHttpDataSource.Factory httpDataSourceFactory) {
     return buildReadOnlyCacheDataSource(httpDataSourceFactory, VideoCache.getInstance(this).getCache());
   }
+
   protected static CacheDataSource.Factory buildReadOnlyCacheDataSource(
       DataSource.Factory upstreamFactory, Cache cache) {
     return new CacheDataSource.Factory().setCache(cache)
@@ -297,7 +334,7 @@ public class InStreamActivity extends AppCompatActivity {
   protected void onDestroy() {
     super.onDestroy();
 
-    if(player != null) {
+    if (player != null) {
       player.stop();
       player.release();
       player = null;
@@ -309,20 +346,20 @@ public class InStreamActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    if(player != null)
+    if (player != null)
       player.setPlayWhenReady(false);
 
-    if(skipButton != null)
+    if (skipButton != null)
       skipButton.pause();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    if(player != null)
+    if (player != null)
       player.setPlayWhenReady(true);
 
-    if(skipButton != null)
+    if (skipButton != null)
       skipButton.resume();
   }
 }
