@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,7 +57,7 @@ import tv.wiinvent.wiinventsdk.ui.FriendlyPlayerView;
 
 public class InStreamActivity extends AppCompatActivity {
   private static final String DRM_LICENSE_URL = "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test";
-  private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
+  private static final String CONTENT_URL = "https://vod-zlr5.tv360.vn/wiinvent/2024/6/25/stock_1719331427822.mp4";
 
   public static final String TAG = InStreamActivity.class.getCanonicalName();
   public static final String SAMPLE_ACCOUNT_ID = "14";
@@ -75,6 +76,8 @@ public class InStreamActivity extends AppCompatActivity {
   private View layoutListEpisodesFullscreen = null;
   private View txtFingerPrint = null;
 
+  private Button btnChangeSource = null;
+  private boolean isHaveAds = true;
 
   @SuppressLint("MissingInflatedId")
   @Override
@@ -96,18 +99,18 @@ public class InStreamActivity extends AppCompatActivity {
     playerTopBarLl = findViewById(R.id.player_top_bar_ll);
     layoutListEpisodesFullscreen = findViewById(R.id.layout_list_episodes_fullscreen);
     txtFingerPrint = findViewById(R.id.txtFingerPrint);
+    btnChangeSource = findViewById(R.id.btnChangeSource);
+    btnChangeSource.setOnClickListener(view -> changeSource());
 
     initializePlayerAndVast();
   }
 
   private void initializePlayerAndVast() {
-    String userAgent = Util.getUserAgent(this, "Exo");
-
     player = new ExoPlayer.Builder(getBaseContext()).build();
     playerView.setPlayer(player);
     playerView.setUseController(false);
 
-    InStreamManager.Companion.getInstance().init(getBaseContext(), SAMPLE_ACCOUNT_ID, DeviceType.PHONE, Environment.SANDBOX, 5, 5, 5, 2000, LevelLog.BODY, 6, true);
+    InStreamManager.Companion.getInstance().init(getBaseContext(), "4", DeviceType.PHONE, Environment.PRODUCTION, 10, 5, 5, 2000, LevelLog.BODY, 6, true);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
 
       @Override
@@ -153,12 +156,20 @@ public class InStreamActivity extends AppCompatActivity {
 
 //    String contentUrl = "https://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
 
+    changeSource();
+  }
+
+  private void changeSource() {
+    InStreamManager.Companion.getInstance().release();
+
+    String userAgent = Util.getUserAgent(this, "Exo");
+
     //khai bao friendly obstruction
     registerFriendlyObstruction();
 
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId("998989,222222") // danh sách id của category của nội dung & cách nhau bằng dấu ,
-        .streamId("0877") // id nội dung
+        .streamId("999999") // id nội dung 0877
         .contentType(ContentType.FILM) //content type TV | FILM | VIDEO
         .title("Highlights Áo vs Thổ Nhĩ Kỳ | Giao Hữu Quốc Tế 2024") // tiêu đề nội dung
         .category("danh muc 1, danh muc 2") // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ,
@@ -174,18 +185,26 @@ public class InStreamActivity extends AppCompatActivity {
 
     MediaSource mediaSource = buildMediaSource(buildDataSourceFactory(httpDataSourceFactory), CONTENT_URL, getDrmSessionManager(httpDataSourceFactory));
 
-    DefaultMediaSourceFactory defaultMediaSourceFactory = new DefaultMediaSourceFactory(this);
-    AdsMediaSource adsMediaSource = InStreamManager.Companion.getInstance()
-        .requestAds(adsRequestData,
-            mediaSource,
-            playerView,
-            player,
-            defaultMediaSourceFactory);
+    if(isHaveAds) {
+      Log.d(TAG, "=========Run source co quang cao " + isHaveAds);
+      DefaultMediaSourceFactory defaultMediaSourceFactory = new DefaultMediaSourceFactory(this);
+      AdsMediaSource adsMediaSource = InStreamManager.Companion.getInstance()
+          .requestAds(adsRequestData,
+              mediaSource,
+              playerView,
+              player,
+              defaultMediaSourceFactory);
 
-    player.addMediaSource(adsMediaSource);
+      player.setMediaSource(adsMediaSource);
+    } else {
+      Log.d(TAG, "=========Run source khong quang cao " + isHaveAds);
+      player.setMediaSource(mediaSource);
+    }
     player.prepare();
 
     player.setPlayWhenReady(true);
+
+    isHaveAds = !isHaveAds;
   }
 
   private void registerFriendlyObstruction() {
@@ -269,12 +288,18 @@ public class InStreamActivity extends AppCompatActivity {
     );
     friendlyObstructionList.add(txtFingerPrintOb);
 
+    FriendlyObstruction btnChangeSourceOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        btnChangeSource,
+        FriendlyObstructionPurpose.OTHER,
+        "Btn Change Source"
+    );
+    friendlyObstructionList.add(btnChangeSourceOb);
+
     if (playerView != null) {
       Log.d(TAG, "============register friendly obstruction size: " + friendlyObstructionList.size());
       playerView.addFriendlyObstructionList(friendlyObstructionList);
     }
   }
-
 
   private DrmSessionManager getDrmSessionManager(DefaultHttpDataSource.Factory dataSourceFactory) {
     try {

@@ -355,4 +355,10 @@
     android:visibility="gone"
     android:textSize="9sp"
     />
+
+  <Button android:id="@+id/btnChangeSource"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Change source"
+    />
 </FrameLayout>
