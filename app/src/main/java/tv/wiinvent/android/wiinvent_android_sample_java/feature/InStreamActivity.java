@@ -54,14 +54,27 @@ import tv.wiinvent.wiinventsdk.models.type.ContentType;
 import tv.wiinvent.wiinventsdk.models.type.DeviceType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
 import tv.wiinvent.wiinventsdk.ui.FriendlyPlayerView;
+import tv.wiinvent.wiinventsdk.ui.instream.player.AdPlayerView;
 
 public class InStreamActivity extends AppCompatActivity {
   private static final String DRM_LICENSE_URL = "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test";
-  private static final String CONTENT_URL = "https://vod-zlr5.tv360.vn/wiinvent/2024/6/25/stock_1719331427822.mp4";
+
+  //DUng 1 trong 2 luong;
+
+  // Luong live
+  private static final ContentType contentType = ContentType.TV;
+  private static final String CONTENT_URL = "https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8";
+
+  //Cho luong TV
+//  private static final ContentType contentType = ContentType.FILM;
+//  private static final String CONTENT_URL = "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
+
+  private float currentVolume = 0F;
 
   public static final String TAG = InStreamActivity.class.getCanonicalName();
   public static final String SAMPLE_ACCOUNT_ID = "14";
   private FriendlyPlayerView playerView = null;
+  private AdPlayerView adPlayerView = null;
   private ExoPlayer player;
 
   private View videoZoomStatus = null;
@@ -87,6 +100,7 @@ public class InStreamActivity extends AppCompatActivity {
     Objects.requireNonNull(getSupportActionBar()).hide();
 
     playerView = findViewById(R.id.player_view);
+    adPlayerView = findViewById(R.id.ad_player_view);
 
     videoZoomStatus = findViewById(R.id.video_zoom_status);
     playerViewSpherical = findViewById(R.id.player_view_spherical);
@@ -110,8 +124,46 @@ public class InStreamActivity extends AppCompatActivity {
     playerView.setPlayer(player);
     playerView.setUseController(false);
 
-    InStreamManager.Companion.getInstance().init(getBaseContext(), "4", DeviceType.PHONE, Environment.PRODUCTION, 10, 5, 5, 2000, LevelLog.BODY, 6, true);
+    if(player != null) {
+      currentVolume = player.getVolume();
+    }
+    InStreamManager.Companion.getInstance().init(getBaseContext(), "14", DeviceType.PHONE, Environment.SANDBOX, 10, 5, 5, 2000, LevelLog.BODY, 6, true);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+
+      @Override
+      public void showContentPlayer() {
+        if(contentType == ContentType.TV) {
+          if(player != null) {
+            player.setVolume(currentVolume);
+          }
+        } else {
+          if(player != null) {
+            player.play();
+          }
+        }
+
+        if(playerView != null) {
+          playerView.setVisibility(View.VISIBLE);
+        }
+      }
+
+      @Override
+      public void hideContentPlayer() {
+        if(contentType == ContentType.TV) {
+          if(player != null) {
+            currentVolume = player.getVolume();
+            player.setVolume(0F);
+          }
+        } else {
+          if(player != null) {
+            player.pause();
+          }
+        }
+
+        if(playerView != null) {
+          playerView.setVisibility(View.GONE);
+        }
+      }
 
       @Override
       public void onEvent(@NonNull AdInStreamEvent event) {
@@ -163,10 +215,6 @@ public class InStreamActivity extends AppCompatActivity {
     InStreamManager.Companion.getInstance().release();
 
     String userAgent = Util.getUserAgent(this, "Exo");
-
-    //khai bao friendly obstruction
-    registerFriendlyObstruction();
-
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId("998989,222222") // danh sách id của category của nội dung & cách nhau bằng dấu ,
         .streamId("999999") // id nội dung 0877
@@ -176,6 +224,7 @@ public class InStreamActivity extends AppCompatActivity {
         .keyword("key word 1, keyword 2") // từ khoá nếu có | để "" nếu ko có
         .transId("01sssss") //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
         .uid20("") // unified id 2.0, nếu không có thì set ""
+        .segments("23,23,23,23")
         .build();
 
     DefaultHttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSource.Factory();
@@ -185,29 +234,18 @@ public class InStreamActivity extends AppCompatActivity {
 
     MediaSource mediaSource = buildMediaSource(buildDataSourceFactory(httpDataSourceFactory), CONTENT_URL, getDrmSessionManager(httpDataSourceFactory));
 
-    if(isHaveAds) {
-      Log.d(TAG, "=========Run source co quang cao " + isHaveAds);
-      DefaultMediaSourceFactory defaultMediaSourceFactory = new DefaultMediaSourceFactory(this);
-      AdsMediaSource adsMediaSource = InStreamManager.Companion.getInstance()
-          .requestAds(adsRequestData,
-              mediaSource,
-              playerView,
-              player,
-              defaultMediaSourceFactory);
-
-      player.setMediaSource(adsMediaSource);
-    } else {
-      Log.d(TAG, "=========Run source khong quang cao " + isHaveAds);
-      player.setMediaSource(mediaSource);
-    }
+    InStreamManager.Companion.getInstance()
+        .requestAds(adsRequestData,
+            adPlayerView,
+            player,
+            registerFriendlyObstruction());
+    player.setMediaSource(mediaSource);
     player.prepare();
 
     player.setPlayWhenReady(true);
-
-    isHaveAds = !isHaveAds;
   }
 
-  private void registerFriendlyObstruction() {
+  private List<FriendlyObstruction> registerFriendlyObstruction() {
     // Khai bao friendly obstruction
     List<FriendlyObstruction> friendlyObstructionList = new ArrayList<>();
 
@@ -295,10 +333,7 @@ public class InStreamActivity extends AppCompatActivity {
     );
     friendlyObstructionList.add(btnChangeSourceOb);
 
-    if (playerView != null) {
-      Log.d(TAG, "============register friendly obstruction size: " + friendlyObstructionList.size());
-      playerView.addFriendlyObstructionList(friendlyObstructionList);
-    }
+    return friendlyObstructionList;
   }
 
   private DrmSessionManager getDrmSessionManager(DefaultHttpDataSource.Factory dataSourceFactory) {

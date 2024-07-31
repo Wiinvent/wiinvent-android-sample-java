@@ -86,12 +86,14 @@ public class MainActivity extends AppCompatActivity {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
           .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
           .uid20("") // unified id 2.0, nếu không có thì set ""
+          .segments("123,123,123,123")
           .build();
 
       AdsWelcomeManager.Companion.getInstance().requestAds(this,
           R.id.welcome_ad_view,
           R.layout.wisdk_welcome_tvc_detail,
           R.id.wisdk_exo_player_view,
+          R.id.wisdk_ad_player_view,
           R.id.wisdk_skip_button,
           R.layout.wisdk_welcome_combo_detail,
           R.layout.wisdk_welcome_banner_sdk_detail,

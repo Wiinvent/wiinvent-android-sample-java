@@ -102,6 +102,13 @@
         />
     </LinearLayout>
 
+    <tv.wiinvent.wiinventsdk.ui.instream.player.AdPlayerView
+      android:id="@+id/ad_player_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="gone"
+      />
+
     <tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds
       android:id="@+id/skip_button"
       android:layout_width="wrap_content"
