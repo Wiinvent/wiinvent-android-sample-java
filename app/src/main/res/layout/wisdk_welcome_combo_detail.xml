@@ -15,7 +15,7 @@
     app:layout_constraintLeft_toLeftOf="parent"
     android:contentDescription="Background" />
 
-  <tv.wiinvent.wiinventsdk.ui.FriendlyPlayerView
+  <com.google.android.exoplayer2.ui.PlayerView
     android:id="@+id/wisdk_exo_player_view"
     android:layout_width="0dp"
     android:layout_height="0dp"

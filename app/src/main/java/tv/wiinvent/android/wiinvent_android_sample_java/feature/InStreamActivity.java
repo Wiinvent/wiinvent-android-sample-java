@@ -29,6 +29,7 @@ import com.google.android.exoplayer2.source.dash.manifest.DashManifest;
 import com.google.android.exoplayer2.source.dash.manifest.DashManifestParser;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
@@ -53,7 +54,6 @@ import tv.wiinvent.wiinventsdk.models.ads.AdsRequestData;
 import tv.wiinvent.wiinventsdk.models.type.ContentType;
 import tv.wiinvent.wiinventsdk.models.type.DeviceType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
-import tv.wiinvent.wiinventsdk.ui.FriendlyPlayerView;
 import tv.wiinvent.wiinventsdk.ui.instream.player.AdPlayerView;
 
 public class InStreamActivity extends AppCompatActivity {
@@ -73,7 +73,7 @@ public class InStreamActivity extends AppCompatActivity {
 
   public static final String TAG = InStreamActivity.class.getCanonicalName();
   public static final String SAMPLE_ACCOUNT_ID = "14";
-  private FriendlyPlayerView playerView = null;
+  private PlayerView playerView = null;
   private AdPlayerView adPlayerView = null;
   private ExoPlayer player;
 
