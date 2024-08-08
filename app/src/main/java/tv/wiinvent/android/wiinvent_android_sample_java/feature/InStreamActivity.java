@@ -195,14 +195,14 @@ public class InStreamActivity extends AppCompatActivity {
 
       @Override
       public void onTimeout() {
-        InStreamManager.Companion.getInstance().release();
+        Log.d(TAG, "==========onTimeout ");
+        //Write log
       }
 
       @Override
       public void onFailure() {
         Log.d(TAG, "==========onFailure ");
-
-        InStreamManager.Companion.getInstance().release();
+        //Write log
       }
     });
 
