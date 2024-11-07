@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
           .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
           .uid20("") // unified id 2.0, nếu không có thì set ""
-          .segments("123,123,123,123")
+          .segments("123,123,123,123") //segments lay tu server doi tac
           .build();
 
       AdsWelcomeManager.Companion.getInstance().requestAds(this,

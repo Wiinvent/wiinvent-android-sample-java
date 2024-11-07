@@ -224,7 +224,7 @@ public class InStreamActivity extends AppCompatActivity {
         .keyword("key word 1, keyword 2") // từ khoá nếu có | để "" nếu ko có
         .transId("01sssss") //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
         .uid20("") // unified id 2.0, nếu không có thì set ""
-        .segments("23,23,23,23")
+        .segments("23,23,23,23") //segtment id lay tu server doi tac
         .build();
 
     DefaultHttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSource.Factory();
