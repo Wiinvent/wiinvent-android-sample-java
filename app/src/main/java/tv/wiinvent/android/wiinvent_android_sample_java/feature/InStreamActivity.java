@@ -180,6 +180,7 @@ public class InStreamActivity extends AppCompatActivity {
       public void showSkipButton(@NonNull String campaignId, int duration) {
         Log.d(TAG, "=========InStreamManager showSkipButton " + duration + " --- " + skipButton);
         if (skipButton != null) {
+          skipButton.resume();
           skipButton.startCountdown(duration);
         }
       }
