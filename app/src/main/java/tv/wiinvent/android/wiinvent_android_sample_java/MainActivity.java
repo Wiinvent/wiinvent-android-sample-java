@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.BannerActivity;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.BitmovinInStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.backup.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
 import tv.wiinvent.wiinventsdk.AdsWelcomeManager;
@@ -34,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
     findViewById(R.id.instreamBtn).setOnClickListener(v -> {
       Intent intent = new Intent(MainActivity.this, InStreamActivity.class);
+      startActivity(intent);
+    });
+
+    findViewById(R.id.bitmovinInstreamBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, BitmovinInStreamActivity.class);
       startActivity(intent);
     });
 

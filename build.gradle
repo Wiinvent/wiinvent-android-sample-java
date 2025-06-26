@@ -19,6 +19,9 @@ allprojects {
         google()
         mavenCentral()
         maven { url "https://maven.wiinvent.tv/repository/maven-releases/" }
+        maven {
+            url 'https://artifacts.bitmovin.com/artifactory/public-releases'
+        }
     }
 }
 

@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
@@ -46,7 +47,7 @@ public class OverlayActivity extends AppCompatActivity {
   public static final String SAMPLE_STREAM_ID = "13545";
   public static final String SAMPLE_TOKEN = "3001";
 
-  private static final String CONTENT_URL = "https://storage.googleapis.com/gvabox/media/samples/stock.mp4";
+  private static final String CONTENT_URL = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8";
 
   private PlayerView exoplayerView = null;
   private SimpleExoPlayer exoplayer;
@@ -192,17 +193,6 @@ public class OverlayActivity extends AppCompatActivity {
         return exoplayer != null ? exoplayer.getCurrentPosition() : 0L;
       }
     });
-
-    // Add player event listeners to determine overlay visibility.
-    exoplayer.addListener(new Player.EventListener() {
-      @Override
-      public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        Log.d(TAG, "====onPlayerStateChanged playWhenReady: $playWhenReady - $playbackState");
-
-        if (overlayManager != null)
-          overlayManager.setVisible(playWhenReady && playbackState == Player.STATE_READY);
-      }
-    });
   }
 
   private MediaSource buildMediaSource(DataSource.Factory dataSourceFactory, String url) {
@@ -211,19 +201,19 @@ public class OverlayActivity extends AppCompatActivity {
       case C.TYPE_DASH:
         return new DashMediaSource
             .Factory(dataSourceFactory)
-            .createMediaSource(uri);
+            .createMediaSource(MediaItem.fromUri(uri));
       case C.TYPE_HLS:
         return new HlsMediaSource
             .Factory(dataSourceFactory)
             .setAllowChunklessPreparation(true)
-            .createMediaSource(uri);
+            .createMediaSource(MediaItem.fromUri(uri));
       case C.TYPE_SS:
         return new SsMediaSource
             .Factory(dataSourceFactory)
-            .createMediaSource(uri);
+            .createMediaSource(MediaItem.fromUri(uri));
       case C.TYPE_OTHER:
         return new ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(uri);
+            .createMediaSource(MediaItem.fromUri(uri));
     }
     return null;
   }

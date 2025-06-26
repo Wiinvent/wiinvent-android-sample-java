@@ -34,19 +34,29 @@
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:name=".feature.backup.GameActivity"
+            android:name=".feature.BitmovinInStreamActivity"
             android:exported="true">
         </activity>
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:name=".feature.backup.ProfileActivity">
+            android:name=".feature.backup.GameActivity"
+            android:exported="true">
         </activity>
+<!--        <activity-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:screenOrientation="fullSensor"-->
+<!--            android:name=".feature.backup.ProfileActivity">-->
+<!--        </activity>-->
         <activity
           android:configChanges="keyboardHidden|orientation|screenSize"
           android:screenOrientation="fullSensor"
           android:name=".feature.BannerActivity">
         </activity>
+
+        <meta-data
+            android:name="BITMOVIN_PLAYER_LICENSE_KEY"
+            android:value="22a5430e-a8cc-46d3-98b1-e64808844d87" />
     </application>
 
 </manifest>
