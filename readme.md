@@ -30,7 +30,7 @@
 | Key         | Description                                                                        |
 |:------------|:-----------------------------------------------------------------------------------|
 | env         | Environment.SANDBOX <br/> WI.Environment.PRODUCTION                                |
-| contentType | ContentType.TV <br/>WI.ContentType.FILM <br/>WI.ContentType.VIDEO                  |
+| contentType | ContentType.TV <br/>WI.ContentType.FILM <br/>WI.ContentType.VIDEO <br/>WI.ContentType.SHORT_VOD                  |
 | gender      | Gender.MALE <br/>WI.Gender.FEMALE <br/>WI.Gender.OTHER <br/>WI.Gender.NONE         |
 | logLevel    | LevelLog.NONE <br/> LevelLog.BODY                                                  |
 | adSize      | BannerAdSize.BANNER <br/> BannerAdSize.LARGE_BANNER <br/> BannerAdSize.RECTANGLE   |
