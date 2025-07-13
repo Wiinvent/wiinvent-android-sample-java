@@ -127,7 +127,7 @@ public class InStreamActivity extends AppCompatActivity {
     if(player != null) {
       currentVolume = player.getVolume();
     }
-    InStreamManager.Companion.getInstance().init(getBaseContext(), "14", DeviceType.PHONE, Environment.SANDBOX, 10, 5, 5, 2000, LevelLog.BODY, 6, true);
+    InStreamManager.Companion.getInstance().init(getBaseContext(), "14", DeviceType.PHONE, Environment.SANDBOX, 10, 5, 5, 2000, LevelLog.BODY, 6);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
 
       @Override
@@ -218,7 +218,7 @@ public class InStreamActivity extends AppCompatActivity {
     String userAgent = Util.getUserAgent(this, "Exo");
     AdsRequestData adsRequestData = new AdsRequestData.Builder()
         .channelId("998989,222222") // danh sách id của category của nội dung & cách nhau bằng dấu ,
-        .streamId("999999") // id nội dung 0877
+        .streamId("119") // id nội dung 0877
         .contentType(ContentType.FILM) //content type TV | FILM | VIDEO
         .title("Highlights Áo vs Thổ Nhĩ Kỳ | Giao Hữu Quốc Tế 2024") // tiêu đề nội dung
         .category("danh muc 1, danh muc 2") // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ,
