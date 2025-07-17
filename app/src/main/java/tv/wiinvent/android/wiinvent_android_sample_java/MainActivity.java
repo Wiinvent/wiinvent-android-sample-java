@@ -48,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
+    // ===> banner
+    findViewById(R.id.bannerBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, BannerActivity.class);
+      startActivity(intent);
+    });
+
+    initWelcome();
+  }
+
+  private void initWelcome() {
     //Khoi tao welcome
     welcomeAdView = findViewById(R.id.welcome_ad_view);
     AdsWelcomeManager.Companion.getInstance().init(getBaseContext(),  "14", Environment.SANDBOX, 5, 5, 5, 2000, "", true);
@@ -88,30 +98,25 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+
     findViewById(R.id.welcomeBtn).setOnClickListener(v -> {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
-          .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
-          .uid20("") // unified id 2.0, nếu không có thì set ""
-          .segments("123,123,123,123") //segments lay tu server doi tac
-          .build();
+              .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
+              .uid20("") // unified id 2.0, nếu không có thì set ""
+              .segments("123,123,123,123") //segments lay tu server doi tac
+              .build();
 
       AdsWelcomeManager.Companion.getInstance().requestAds(this,
-          R.id.welcome_ad_view,
-          R.layout.wisdk_welcome_tvc_detail,
-          R.id.wisdk_exo_player_view,
-          R.id.wisdk_ad_player_view,
-          R.id.wisdk_skip_button,
-          R.layout.wisdk_welcome_combo_detail,
-          R.layout.wisdk_welcome_banner_sdk_detail,
-          R.id.wisdk_web_view,
-          R.id.wisdk_background_img,
-          adsRequestData);
-    });
-
-    // ===> banner
-    findViewById(R.id.bannerBtn).setOnClickListener(v -> {
-      Intent intent = new Intent(MainActivity.this, BannerActivity.class);
-      startActivity(intent);
+              R.id.welcome_ad_view,
+              R.layout.wisdk_welcome_tvc_detail,
+              R.id.wisdk_exo_player_view,
+              R.id.wisdk_ad_player_view,
+              R.id.wisdk_skip_button,
+              R.layout.wisdk_welcome_combo_detail,
+              R.layout.wisdk_welcome_banner_sdk_detail,
+              R.id.wisdk_web_view,
+              R.id.wisdk_background_img,
+              adsRequestData);
     });
   }
 }
