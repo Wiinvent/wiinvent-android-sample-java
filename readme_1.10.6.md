@@ -8,7 +8,7 @@ implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
 ```
 
 #### 2. Hướng dẫn cập nhật
-#### 2.1 2 quảng cáo run liên tiếp cập nhật config
+#### 2.1 Hai quảng cáo chạy liên tiếp cập nhật config sau:
     Chỉnh sửa init bỏ biến alwaysCustomSkip
 
     ==> InStreamManager.Companion.getInstance().init(requireContext(), "14", DeviceType.TV, Environment.SANDBOX, 5, 10, 5, 2500, LevelLog.BODY, 8);
