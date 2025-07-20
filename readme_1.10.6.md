@@ -1,20 +1,20 @@
 
-### Version 1.1.10
+### Version 1.10.6
 Change log: hỗ trợ thêm 2 quảng cáo liên tiếp & welcome chạy vast tag
 
-#### 1. Nâng version
+#### 1. SDK
 ```gralde
 implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
 ```
 
-#### 2.
+#### 2. Hướng dẫn cập nhật
 #### 2.1 2 quảng cáo run liên tiếp cập nhật config
     Chỉnh sửa init bỏ biến alwaysCustomSkip
 
     ==> InStreamManager.Companion.getInstance().init(requireContext(), "14", DeviceType.TV, Environment.SANDBOX, 5, 10, 5, 2500, LevelLog.BODY, 8);
 
 #### 2.2 Welcome
-#### 2.2.1 Bỏ sung layout trong main activity:
+#### 2.2.1 Bổ sung layout trong main activity:
 ```xml
     <tv.wiinvent.wiinventsdk.ui.welcomead.WelcomeAdView
         android:id="@+id/welcome_ad_view"
