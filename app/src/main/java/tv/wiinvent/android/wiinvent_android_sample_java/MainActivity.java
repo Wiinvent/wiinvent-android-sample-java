@@ -60,7 +60,16 @@ public class MainActivity extends AppCompatActivity {
   private void initWelcome() {
     //Khoi tao welcome
     welcomeAdView = findViewById(R.id.welcome_ad_view);
-    AdsWelcomeManager.Companion.getInstance().init(getBaseContext(),  "14", Environment.SANDBOX, 5, 5, 5, 2000, "", true);
+    AdsWelcomeManager.Companion.getInstance().init(getBaseContext(),
+            "14", // tenant id giống với instream, phụ thuộc vào môi trường (prod|sandbox) có thể khác nhau (lấy config từ backend)
+            Environment.SANDBOX, // môi truòng prod | sandbox
+            5, // load vast timeout (lấy config từ backend)
+            5, // load media timeout (lấy config từ backend)
+            5, // buffer media timeout (lấy config từ backend)
+            2000,  // max bitrate (lấy config từ backend)
+            "",
+            8,  // thời gian bo qua quang cao welcome
+            true); // debug
     AdsWelcomeManager.Companion.getInstance().addWelcomeListener(new WelcomeAdsEventListener() {
       @Override
       public void onDisplayAds() {
