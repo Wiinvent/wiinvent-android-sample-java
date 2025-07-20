@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
     welcomeAdView = findViewById(R.id.welcome_ad_view);
     AdsWelcomeManager.Companion.getInstance().init(getBaseContext(),
             "14", // tenant id giống với instream, phụ thuộc vào môi trường (prod|sandbox) có thể khác nhau (lấy config từ backend)
-            Environment.SANDBOX, // môi truòng prod | sandbox
-            5, // load vast timeout (lấy config từ backend)
-            5, // load media timeout (lấy config từ backend)
-            5, // buffer media timeout (lấy config từ backend)
-            2000,  // max bitrate (lấy config từ backend)
+            Environment.SANDBOX, // môi truòng prod | sandbox, giong instream
+            5, // load vast timeout (lấy config từ backend), giong instream
+            5, // load media timeout (lấy config từ backend), giong instream
+            5, // buffer media timeout (lấy config từ backend), giong instream
+            2000,  // max bitrate (lấy config từ backend), giong instream
             "",
-            8,  // thời gian bo qua quang cao welcome
+            8,  // thời gian bo qua quang cao welcome (config dc tu phia backend)
             true); // debug
     AdsWelcomeManager.Companion.getInstance().addWelcomeListener(new WelcomeAdsEventListener() {
       @Override
