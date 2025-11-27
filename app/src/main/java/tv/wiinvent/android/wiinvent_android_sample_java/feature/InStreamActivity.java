@@ -15,6 +15,7 @@ import com.google.ads.interactivemedia.v3.api.FriendlyObstructionPurpose;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.drm.DefaultDrmSessionManager;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.drm.FrameworkMediaDrm;
@@ -242,6 +243,17 @@ public class InStreamActivity extends AppCompatActivity {
             registerFriendlyObstruction());
     player.setMediaSource(mediaSource);
     player.prepare();
+
+    player.addListener(new Player.Listener() {
+      @Override
+      public void onPlaybackStateChanged(int state) {
+        if (state == Player.STATE_ENDED) {
+          // Nội dung đã phát xong
+          Log.d("ExoPlayer", "Playback ended!");
+          // Thực hiện logic sau khi kết thúc
+        }
+      }
+    });
 
     player.setPlayWhenReady(true);
   }

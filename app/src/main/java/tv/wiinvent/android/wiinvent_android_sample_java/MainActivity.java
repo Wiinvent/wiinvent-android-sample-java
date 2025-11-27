@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
+//import tv.wiinvent.android.wiinvent_android_sample_java.feature.BitmovinInStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.BannerActivity;
-import tv.wiinvent.android.wiinvent_android_sample_java.feature.BitmovinInStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.backup.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
 import tv.wiinvent.wiinventsdk.AdsWelcomeManager;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = MainActivity.class.getCanonicalName();
   private WelcomeAdView welcomeAdView;
+
+  private WebView webView;
+
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
-    findViewById(R.id.bitmovinInstreamBtn).setOnClickListener(v -> {
-      Intent intent = new Intent(MainActivity.this, BitmovinInStreamActivity.class);
-      startActivity(intent);
-    });
+//    findViewById(R.id.bitmovinInstreamBtn).setOnClickListener(v -> {
+//      Intent intent = new Intent(MainActivity.this, BitmovinInStreamActivity.class);
+//      startActivity(intent);
+//    });
 
     findViewById(R.id.votingBtn).setOnClickListener(v -> {
       Intent intent = new Intent(MainActivity.this, GameActivity.class);

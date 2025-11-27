@@ -1,127 +1,246 @@
 package tv.wiinvent.android.wiinvent_android_sample_java.feature;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
+import com.google.android.exoplayer2.util.Util;
+
+import java.util.Objects;
+
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
-import tv.wiinvent.wiinventsdk.BannerManager;
+import tv.wiinvent.wiinventsdk.DisplayBannerManager;
 import tv.wiinvent.wiinventsdk.interfaces.banner.BannerAdEventListener;
-import tv.wiinvent.wiinventsdk.models.ads.BannerAdsRequestData;
-import tv.wiinvent.wiinventsdk.models.type.BannerAdSize;
-import tv.wiinvent.wiinventsdk.models.type.ContentType;
+import tv.wiinvent.wiinventsdk.models.ads.DisplayBannerAdsRequestData;
+import tv.wiinvent.wiinventsdk.models.type.BannerDisplayAdSize;
+import tv.wiinvent.wiinventsdk.models.type.BannerDisplayType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
 import tv.wiinvent.wiinventsdk.ui.banner.BannerAdView;
 
 public class BannerActivity extends AppCompatActivity {
+  public static final String TAG = InStreamActivity.class.getCanonicalName();
 
-  private static final String TAG = BannerActivity.class.getCanonicalName();
+  private PlayerView playerView = null;
+  private ExoPlayer player = null;
+
+  private String channelIdDefault = "998989";
+  private String streamIdDefault = "999999";
+  private String positionIdDefault = "homepage1";
+  private BannerDisplayAdSize adSize = BannerDisplayAdSize.LARGE_BANNER;
+
+  private static final String CONTENT_URL = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8";
 
   @SuppressLint("MissingInflatedId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_banner);
+    setContentView(R.layout.activity_overlays_banner);
+    playerView = findViewById(R.id.player_view);
 
-    Button bannerButton = findViewById(R.id.reload_banner);
-    bannerButton.setOnClickListener(v -> {
-      showBanner(BannerAdSize.BANNER);
-//            showBanner(BannerAdSize.RECTANGLE);
-//            showBanner(BannerAdSize.LARGE_BANNER);
+    Objects.requireNonNull(getSupportActionBar()).hide();
+
+    Button displayBannerButton = findViewById(R.id.display_banner);
+    displayBannerButton.setOnClickListener(v -> showDisplayBanner());
+
+    Button overlayBannerButton = findViewById(R.id.overlay_banner);
+    overlayBannerButton.setOnClickListener(v -> loadPlayer());
+
+    initDisplayBannerManager();
+    initializePlayer();
+  }
+  private void initDisplayBannerManager() {
+
+    DisplayBannerManager.Companion.getInstance().init(
+        this,
+        "14",
+        Environment.SANDBOX,
+        10,
+        true
+    );
+
+    DisplayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
+      @Override
+      public void onDisplayAds(BannerAdView adView) {
+        Log.d(TAG, "=========DisplayBannerManager onDisplayAds");
+
+        runOnUiThread(() -> {
+          if (adView != null) {
+            adView.setVisibility(View.VISIBLE);
+          }
+        });
+      }
+
+      @Override
+      public void onNoAds(BannerAdView adView) {
+        Log.d(TAG, "=========DisplayBannerManager khong co ads de show 1");
+      }
+
+      @Override
+      public void onAdsBannerDismiss(BannerAdView adView) {
+        Log.d(TAG, "=========DisplayBannerManager onAdsBannerDismiss");
+
+        runOnUiThread(() -> {
+          if (adView != null) {
+            adView.setVisibility(View.GONE);
+            DisplayBannerManager.Companion.getInstance().releaseBanner(adView);
+          }
+        });
+      }
+
+      @Override
+      public void onAdsBannerError(BannerAdView adView) {
+        Log.d(TAG, "=========DisplayBannerManager onAdsWelcomeError");
+
+        runOnUiThread(() -> {
+          if (adView != null) {
+            adView.setVisibility(View.GONE);
+            DisplayBannerManager.Companion.getInstance().releaseBanner(adView);
+          }
+        });
+      }
+
+      @Override
+      public void onAdsBannerClick(String clickThroughLink) {
+        Log.d(TAG, "=========DisplayBannerManager onAdsBannerClick " + clickThroughLink);
+      }
     });
-
-    if(savedInstanceState == null) {
-      initBanner();
-      showBanner(BannerAdSize.BANNER);
-//            showBanner(BannerAdSize.RECTANGLE);
-//            showBanner(BannerAdSize.LARGE_BANNER);
-    }
-
   }
 
-  private void initBanner() {
-    BannerManager.Companion.getInstance().init(this, "14", Environment.SANDBOX, 5, true);
-    BannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
+  private void initializePlayer() {
+    player = new ExoPlayer.Builder(getBaseContext()).build();
+    playerView.setPlayer(player);
+    playerView.setUseController(true);
+
+    player.addListener(new Player.Listener() {
+
       @Override
-      public void onDisplayAds(@Nullable BannerAdView bannerAdView) {
-        Log.d(TAG, "=========onDisplayAds");
-
-        runOnUiThread(() -> {
-          if(bannerAdView != null) {
-            bannerAdView.setVisibility(View.VISIBLE);
-          }
-        });
-
+      public void onPlaybackStateChanged(int playbackState) {
+        if (playbackState == Player.STATE_READY && !player.getPlayWhenReady()) {
+          Log.e(TAG, "ExoPlayer is paused");
+          showOverlayBanner();
+        } else if (playbackState == Player.STATE_READY && player.getPlayWhenReady()) {
+          dismissOverlayBanner();
+        }
       }
 
       @Override
-      public void onNoAds(@Nullable BannerAdView bannerAdView) {
-        Log.d(TAG, "=========khong co ads de show 1");
-      }
-
-      @Override
-      public void onAdsBannerDismiss(@Nullable BannerAdView bannerAdView) {
-        Log.d(TAG, "=========onAdsBannerDismiss");
-        runOnUiThread(() -> {
-          if(bannerAdView != null) {
-            bannerAdView.setVisibility(View.GONE);
-            BannerManager.Companion.getInstance().releaseBanner(bannerAdView);
-          }
-        });
-      }
-
-      @Override
-      public void onAdsBannerError(@Nullable BannerAdView bannerAdView) {
-        Log.d(TAG, "=========onAdsBannerError");
-        runOnUiThread(() -> {
-          if(bannerAdView != null) {
-            bannerAdView.setVisibility(View.GONE);
-            BannerManager.Companion.getInstance().releaseBanner(bannerAdView);
-          }
-        });
-      }
-
-      @Override
-      public void onAdsBannerClick(@NonNull String clickThroughLink) {
-        Log.d(TAG, "=========onAdsBannerClick " + clickThroughLink);
+      public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
+        if (!playWhenReady && player.getPlaybackState() == Player.STATE_READY) {
+          Log.d(TAG, "ExoPlayer is paused");
+          showOverlayBanner();
+        } else if (player.getPlaybackState() == Player.STATE_READY && playWhenReady) {
+          dismissOverlayBanner();
+        }
       }
     });
+
+    // loadPlayer();
   }
 
-  private void showBanner(BannerAdSize adSize) {
-    BannerAdsRequestData bannerAdsRequestData = new BannerAdsRequestData.Builder()
-        .adSize(adSize) //các loại banner
-        .contentType(ContentType.FILM) //content type TV | FILM | VIDEO
-        .channelId("998989,2222") // danh sach category id cach nhau bang dau ,
-        .streamId("999999") // id nội dung
-        .title("Day la title noi dung") // tiêu đề nội dung
-        .category("title category 1, title category 2") // title category cach nhau bang dau ,
-        .transId("33333") // id nay cua server partner cung cap
-        .color("#e5e5e5") // mau background cua banner
-        .uid20("") // unified id 2.0, nếu không có thì set ""
-        .build();
-
-    int viewId = R.id.banner_ad_view;
-    if(adSize == BannerAdSize.LARGE_BANNER) {
-      viewId = R.id.banner_ad_large_banner_view;
-    } else if(adSize == BannerAdSize.RECTANGLE) {
-      viewId = R.id.banner_ad_rectangle_banner_view;
-    }
-
-    BannerManager.Companion.getInstance().requestAds(
-        this, viewId, bannerAdsRequestData
+  public void showDisplayBanner() {
+    showDisplayBanner(
+        adSize,
+        BannerDisplayType.DISPLAY,
+        R.id.banner_ad_display_view,
+        positionIdDefault.isEmpty() ? "homepage1" : positionIdDefault
     );
   }
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    BannerManager.Companion.getInstance().release();
+  public void showOverlayBanner() {
+    showDisplayBanner(
+        BannerDisplayAdSize.PAUSE_BANNER,
+        BannerDisplayType.OVERLAY,
+        R.id.banner_ad_overlay_view,
+        ""
+    );
+  }
+
+  public void dismissOverlayBanner() {
+    BannerAdView bannerView = findViewById(R.id.banner_ad_overlay_view);
+    DisplayBannerManager.Companion.getInstance().releaseBanner(bannerView);
+  }
+
+  public void showDisplayBanner(
+      BannerDisplayAdSize adSize,
+      BannerDisplayType displayType,
+      int viewId,
+      String positionId
+  ) {
+    DisplayBannerAdsRequestData bannerAdsRequestData =
+        new DisplayBannerAdsRequestData.Builder()
+            .channelId(channelIdDefault.isEmpty() ? "998989" : channelIdDefault)
+            .streamId(streamIdDefault.isEmpty() ? "999999" : streamIdDefault)
+            .adSize(adSize)
+            .bannerDisplayType(displayType)
+            .title("Day la title")
+            .category("category 1, category 2")
+            .transId("1112222222")
+            // .age(30)
+            // .gender(Gender.FEMALE)
+            .uid20("123123123")
+            .color("#ffffff00")
+            .segments("a3,34,d3,d3")
+            .positionId(positionId)
+            .build();
+
+    DisplayBannerManager.Companion.getInstance().requestAds(
+        this,
+        viewId,
+        bannerAdsRequestData
+    );
+  }
+
+
+  private void loadPlayer() {
+    DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(getBaseContext());
+    MediaSource mediaSource = buildMediaSource(dataSourceFactory, CONTENT_URL);
+
+    player.setMediaSource(mediaSource);
+    player.prepare();
+    player.setPlayWhenReady(true);
+  }
+
+  private MediaSource buildMediaSource(DataSource.Factory dataSourceFactory, String url) {
+    Uri uri = Uri.parse(url);
+    int type = Util.inferContentType(uri);
+
+    switch (type) {
+      case C.TYPE_DASH:
+        return new DashMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(uri));
+
+      case C.TYPE_HLS:
+        return new HlsMediaSource.Factory(dataSourceFactory)
+            .setAllowChunklessPreparation(true)
+            .createMediaSource(MediaItem.fromUri(uri));
+
+      case C.TYPE_SS:
+        return new SsMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(uri));
+
+      case C.TYPE_OTHER:
+        return new ProgressiveMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(uri));
+
+      default:
+        throw new IllegalStateException("Unsupported type: " + type);
+    }
   }
 }

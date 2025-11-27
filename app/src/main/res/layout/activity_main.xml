@@ -26,7 +26,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:layout_gravity="center_horizontal"
-        android:text="Bitmovin Instream" />
+        android:text="Bitmovin Instream"
+        android:visibility="gone"/>
 
     <Button
       android:id="@+id/votingBtn"
