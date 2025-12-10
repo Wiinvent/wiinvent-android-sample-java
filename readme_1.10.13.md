@@ -232,11 +232,11 @@ Clean up khi refresh toàn bộ giá trị banner data
 
 2. Constant
 
-| Key         | Description                                                                                       |
-|:------------|:--------------------------------------------------------------------------------------------------|
-| env         | Environment.SANDBOX <br/> WI.Environment.PRODUCTION                                               |
-| contentType | ContentType.TV <br/>WI.ContentType.FILM <br/>WI.ContentType.VIDEO <br/>WI.ContentType.SHORT_VOD   |
-| gender      | Gender.MALE <br/>WI.Gender.FEMALE <br/>WI.Gender.OTHER <br/>WI.Gender.NONE                        |
-| logLevel    | LevelLog.NONE <br/> LevelLog.BODY                                                                 |
-| adSize      | BannerDisplayAdSize.MEDIUM_BANNER <br/> BannerAdSize.LARGE_BANNER <br/> BannerAdSize.PAUSE_BANNER |
+| Key         | Description                                                                                                                                          |
+|:------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| env         | Environment.SANDBOX <br/> WI.Environment.PRODUCTION                                                                                                  |
+| contentType | ContentType.TV <br/>WI.ContentType.FILM <br/>WI.ContentType.VIDEO <br/>WI.ContentType.SHORT_VOD                                                      |
+| gender      | Gender.MALE <br/>WI.Gender.FEMALE <br/>WI.Gender.OTHER <br/>WI.Gender.NONE                                                                           |
+| logLevel    | LevelLog.NONE <br/> LevelLog.BODY                                                                                                                    |
+| adSize      | BannerDisplayAdSize.MEDIUM_BANNER (display banner) <br/> BannerAdSize.LARGE_BANNER (display banner) <br/> BannerAdSize.PAUSE_BANNER (overlay banner) |
 
