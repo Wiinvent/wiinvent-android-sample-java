@@ -49,7 +49,15 @@
       android:text="Welcome" />
 
     <Button
-      android:id="@+id/bannerBtn"
+      android:id="@+id/overlayBannerBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingRight="20dp"
+      android:paddingLeft="20dp"
+      android:layout_gravity="center_horizontal"
+      android:text="Overlay Banner" />
+    <Button
+      android:id="@+id/displayBannerBtn"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:paddingRight="20dp"

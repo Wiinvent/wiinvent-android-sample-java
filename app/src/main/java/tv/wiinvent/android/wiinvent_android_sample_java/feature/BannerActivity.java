@@ -56,8 +56,8 @@ public class BannerActivity extends AppCompatActivity {
 
     Objects.requireNonNull(getSupportActionBar()).hide();
 
-    Button displayBannerButton = findViewById(R.id.display_banner);
-    displayBannerButton.setOnClickListener(v -> showDisplayBanner());
+//    Button displayBannerButton = findViewById(R.id.display_banner);
+//    displayBannerButton.setOnClickListener(v -> showDisplayBanner());
 
     Button overlayBannerButton = findViewById(R.id.overlay_banner);
     overlayBannerButton.setOnClickListener(v -> loadPlayer());
@@ -155,12 +155,12 @@ public class BannerActivity extends AppCompatActivity {
   }
 
   public void showDisplayBanner() {
-    showDisplayBanner(
-        adSize,
-        BannerDisplayType.DISPLAY,
-        R.id.banner_ad_display_view,
-        positionIdDefault.isEmpty() ? "homepage1" : positionIdDefault
-    );
+//    showDisplayBanner(
+//        adSize,
+//        BannerDisplayType.DISPLAY,
+//        R.id.banner_ad_display_view,
+//        positionIdDefault.isEmpty() ? "homepage1" : positionIdDefault
+//    );
   }
 
   public void showOverlayBanner() {

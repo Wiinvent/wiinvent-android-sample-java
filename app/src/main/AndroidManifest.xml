@@ -57,7 +57,12 @@
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
-            android:name=".feature.BannerActivity">
+            android:name=".feature.DisplayBannerActivity">
+        </activity>
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="fullSensor"
+            android:name=".feature.OverlayBannerActivity">
         </activity>
 
         <activity

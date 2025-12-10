@@ -13,6 +13,8 @@ import java.util.Objects;
 
 //import tv.wiinvent.android.wiinvent_android_sample_java.feature.BitmovinInStreamActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.BannerActivity;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.DisplayBannerActivity;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.OverlayBannerActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.backup.GameActivity;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.InStreamActivity;
 import tv.wiinvent.wiinventsdk.AdsWelcomeManager;
@@ -53,8 +55,13 @@ public class MainActivity extends AppCompatActivity {
     });
 
     // ===> banner
-    findViewById(R.id.bannerBtn).setOnClickListener(v -> {
-      Intent intent = new Intent(MainActivity.this, BannerActivity.class);
+    findViewById(R.id.overlayBannerBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, OverlayBannerActivity.class);
+      startActivity(intent);
+    });
+
+    findViewById(R.id.displayBannerBtn).setOnClickListener(v -> {
+      Intent intent = new Intent(MainActivity.this, DisplayBannerActivity.class);
       startActivity(intent);
     });
 
