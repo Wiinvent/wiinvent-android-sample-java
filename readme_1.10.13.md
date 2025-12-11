@@ -216,19 +216,20 @@ Clean up khi refresh toàn bộ giá trị banner data
 #### 3. Mô tả các tham số
 1. Parameter
 
-| Key                  | Description                                                                       |       Type |
-|:---------------------|:----------------------------------------------------------------------------------|-----------:|
-| tenantId / accountId | id đối tác được cung cấp bởi wiinvent                                             |    integer |
-| channelId            | Danh sách id của category của nội dung & cách nhau bằng dấu ","                   |     string |
-| category             | Danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","                  |     string |
-| streamId             | Id nội dung                                                                       |     string |
-| title                | Tiêu đề của nội dung                                                              |     string |
-| loadTimeout          | Banner Load Timeout                                                               |    integer |
-| environment          | Môi trường sanbox hoặc production                                                 |   constant |
-| transId              | Mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin |     string |
-| uid20                | Unified id 2.0 (nếu có)                                                           |     string |
-| adSize               | Loại banner theo kích thước                                                       |   constant |
-| segments             | Segments                                                                          |   constant |
+| Key                  | Description                                                                       |     Type |
+|:---------------------|:----------------------------------------------------------------------------------|---------:|
+| tenantId / accountId | id đối tác được cung cấp bởi wiinvent                                             |  integer |
+| positionId           | Id vị trí quảng cáo, dùng để phân biệt các vị trí quảng cáo trong một màn hình    |   string |
+| channelId            | Danh sách id của category của nội dung & cách nhau bằng dấu ","                   |   string |
+| category             | Danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","                  |   string |
+| streamId             | Id nội dung                                                                       |   string |
+| title                | Tiêu đề của nội dung                                                              |   string |
+| loadTimeout          | Banner Load Timeout                                                               |  integer |
+| environment          | Môi trường sanbox hoặc production                                                 | constant |
+| transId              | Mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin |   string |
+| uid20                | Unified id 2.0 (nếu có)                                                           |   string |
+| adSize               | Loại banner theo kích thước                                                       | constant |
+| segments             | Segments                                                                          | constant |
 
 2. Constant
 
