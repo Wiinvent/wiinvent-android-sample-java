@@ -1,10 +1,10 @@
 
-### Version 1.10.6
+### Version 1.10.13
 Change log: Hỗ trợ quảng cáo banner
 
 #### 1. SDK
 ```gralde
-implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
+implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.13'
 ```
 
 #### 2. Hướng dẫn cập nhật
