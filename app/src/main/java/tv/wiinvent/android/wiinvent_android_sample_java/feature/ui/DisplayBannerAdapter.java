@@ -2,6 +2,7 @@ package tv.wiinvent.android.wiinvent_android_sample_java.feature.ui;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +91,7 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
             layoutParams.topMargin = 20;
             bannerAdView.setLayoutParams(layoutParams);
             ctlBanner.addView(bannerAdView);
+            Log.e("tamlog", "createAdBannerView " + bannerAdView.getId());
 
         }
 
@@ -129,7 +131,7 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
 
             DisplayBannerManager.Companion.getInstance().requestAds(
                     activity,
-                    viewId,
+                    bannerAdView,
                     bannerAdsRequestData
             );
 

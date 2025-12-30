@@ -79,6 +79,7 @@ public class DisplayBannerActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                initDisplayBannerManager();
                 DisplayBannerManager.Companion.getInstance().refreshBannerData();
                 displayBannerAdapter.setBannerParams(new ArrayList<>());
                 displayBannerAdapter.notifyDataSetChanged();
@@ -120,7 +121,7 @@ public class DisplayBannerActivity extends AppCompatActivity {
 
         DisplayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
             @Override
-            public void onDisplayAds(BannerAdView adView) {
+            public void onDisplayAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager onDisplayAds");
 
                 runOnUiThread(() -> {
@@ -131,12 +132,12 @@ public class DisplayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNoAds(BannerAdView adView) {
+            public void onNoAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager khong co ads de show 1");
             }
 
             @Override
-            public void onAdsBannerDismiss(BannerAdView adView) {
+            public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsBannerDismiss");
 
                 runOnUiThread(() -> {
@@ -148,7 +149,7 @@ public class DisplayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdsBannerError(BannerAdView adView) {
+            public void onAdsBannerError(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsWelcomeError");
 
                 runOnUiThread(() -> {
@@ -160,7 +161,7 @@ public class DisplayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdsBannerClick(String clickThroughLink) {
+            public void onAdsBannerClick(String positionId, String clickThroughLink) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsBannerClick " + clickThroughLink);
             }
         });
@@ -213,9 +214,11 @@ public class DisplayBannerActivity extends AppCompatActivity {
                         .positionId(positionId)
                         .build();
 
+        BannerAdView bannerAdView = findViewById(viewId);
+
         DisplayBannerManager.Companion.getInstance().requestAds(
                 this,
-                viewId,
+                bannerAdView,
                 bannerAdsRequestData
         );
     }

@@ -83,7 +83,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
 
         OverlayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
             @Override
-            public void onDisplayAds(BannerAdView adView) {
+            public void onDisplayAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========OverlayBannerManager onDisplayAds");
 
                 runOnUiThread(() -> {
@@ -94,12 +94,12 @@ public class OverlayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNoAds(BannerAdView adView) {
+            public void onNoAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========OverlayBannerManager khong co ads de show 1");
             }
 
             @Override
-            public void onAdsBannerDismiss(BannerAdView adView) {
+            public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsBannerDismiss");
 
                 runOnUiThread(() -> {
@@ -111,7 +111,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdsBannerError(BannerAdView adView) {
+            public void onAdsBannerError(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsWelcomeError");
 
                 runOnUiThread(() -> {
@@ -123,7 +123,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdsBannerClick(String clickThroughLink) {
+            public void onAdsBannerClick(String positionId, String clickThroughLink) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsBannerClick " + clickThroughLink);
             }
         });
@@ -197,10 +197,12 @@ public class OverlayBannerActivity extends AppCompatActivity {
                         .positionId(positionId)
                         .build();
 
+        BannerAdView bannerAdView = findViewById(R.id.banner_ad_overlay_view);
         OverlayBannerManager.Companion.getInstance().requestAds(
                 this,
-                R.id.banner_ad_overlay_view,
-                bannerAdsRequestData
+                bannerAdView,
+                bannerAdsRequestData,
+                30
         );
     }
 

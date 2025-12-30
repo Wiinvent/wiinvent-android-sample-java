@@ -1,5 +1,5 @@
 
-### Version 1.10.13
+### Version 1.10.15
 Change log: Hỗ trợ quảng cáo banner
 
 #### 1. SDK
@@ -22,7 +22,7 @@ implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
 //2. Thêm listener cho DisplayBannerManager
         DisplayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
             @Override
-            public void onDisplayAds(BannerAdView adView) {
+            public void onDisplayAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager onDisplayAds");
         
                 runOnUiThread(() -> {
@@ -33,12 +33,12 @@ implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
             }
 
             @Override
-            public void onNoAds(BannerAdView adView) {
+            public void onNoAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager khong co ads de show 1");
             }
 
             @Override
-            public void onAdsBannerDismiss(BannerAdView adView) {
+            public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsBannerDismiss");
         
                 runOnUiThread(() -> {
@@ -50,7 +50,7 @@ implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
             }
 
             @Override
-            public void onAdsBannerError(BannerAdView adView) {
+            public void onAdsBannerError(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsWelcomeError");
         
                 runOnUiThread(() -> {
@@ -62,7 +62,7 @@ implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
             }
 
             @Override
-            public void onAdsBannerClick(String clickThroughLink) {
+            public void onAdsBannerClick(String positionId, String clickThroughLink) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsBannerClick " + clickThroughLink);
             }
         });
@@ -99,10 +99,11 @@ implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
                     .segments("a3,34,d3,d3")
                     .positionId(positionId)
                     .build();
+        BannerAdView bannerAdView = findViewById(viewId);
 
         DisplayBannerManager.Companion.getInstance().requestAds(
                 this,
-                viewId,
+                bannerAdView,
                 bannerAdsRequestData
                 );
 
@@ -118,16 +119,16 @@ Clean up khi refresh toàn bộ giá trị banner data
 //1. Khởi tạo OverlayBannerManager
         OverlayBannerManager.Companion.getInstance().init(
                 this,
-                        "14",
+                "14",
                 Environment.SANDBOX,
                 10,
-                        true
+                true
 );
 
 //2. Thêm listener cho OverlayBannerManager
         OverlayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
     @Override
-    public void onDisplayAds(BannerAdView adView) {
+    public void onDisplayAds(String positionId, BannerAdView adView) {
         Log.d(TAG, "=========OverlayBannerManager onDisplayAds");
 
         runOnUiThread(() -> {
@@ -138,12 +139,12 @@ Clean up khi refresh toàn bộ giá trị banner data
     }
 
     @Override
-    public void onNoAds(BannerAdView adView) {
+    public void onNoAds(String positionId, BannerAdView adView) {
         Log.d(TAG, "=========OverlayBannerManager khong co ads de show 1");
     }
 
     @Override
-    public void onAdsBannerDismiss(BannerAdView adView) {
+    public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
         Log.d(TAG, "=========OverlayBannerManager onAdsBannerDismiss");
 
         runOnUiThread(() -> {
@@ -155,7 +156,7 @@ Clean up khi refresh toàn bộ giá trị banner data
     }
 
     @Override
-    public void onAdsBannerError(BannerAdView adView) {
+    public void onAdsBannerError(String positionId, BannerAdView adView) {
         Log.d(TAG, "=========OverlayBannerManager onAdsWelcomeError");
 
         runOnUiThread(() -> {
@@ -167,7 +168,7 @@ Clean up khi refresh toàn bộ giá trị banner data
     }
 
     @Override
-    public void onAdsBannerClick(String clickThroughLink) {
+    public void onAdsBannerClick(String positionId, String clickThroughLink) {
         Log.d(TAG, "=========OverlayBannerManager onAdsBannerClick " + clickThroughLink);
     }
 });
@@ -206,11 +207,13 @@ Clean up khi refresh toàn bộ giá trị banner data
                     .segments("a3,34,d3,d3")
                     .positionId(positionId)
                     .build();
-
+        
+        BannerAdView bannerAdView = findViewById(R.id.banner_ad_overlay_view);
         OverlayBannerManager.Companion.getInstance().requestAds(
                 this,
-                R.id.banner_ad_overlay_view,
-                bannerAdsRequestData
+                bannerAdView,
+                bannerAdsRequestData,
+                30
                 );
 ```
 #### 3. Mô tả các tham số
