@@ -1,10 +1,12 @@
 
 ### Version 1.10.15
-Change log: Hỗ trợ quảng cáo banner
+Change log: Update cache cho quảng cáo overlay
+Update bannerAdview when call requestAds for displayBanner and overlayBanner
+Update return positionId in BannerAdEventListener in all event
 
 #### 1. SDK
 ```gralde
-implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.6'
+implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.15'
 ```
 
 #### 2. Hướng dẫn cập nhật
