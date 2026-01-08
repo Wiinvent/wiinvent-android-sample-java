@@ -64,6 +64,12 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
         return bannerParams.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull DisplayBannerViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.recycled();
+    }
+
     private Pair<String, BannerDisplayAdSize> item(int position) {
         if (position < 0 || position >= bannerParams.size()) {
             return null;
@@ -137,6 +143,11 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
 
 
 
+        }
+        void recycled() {
+            if(bannerAdView != null) {
+                DisplayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
+            }
         }
 
         private int generateViewId() {

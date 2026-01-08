@@ -43,7 +43,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
     private String channelIdDefault = "998989";
     private String streamIdDefault = "999999";
     private String positionIdDefault = "homepage1";
-    private BannerDisplayAdSize adSize = BannerDisplayAdSize.LARGE_BANNER;
+    private BannerDisplayAdSize adSize = BannerDisplayAdSize.HOMEPAGE_BANNER;
 
     private static final String CONTENT_URL = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8";
 
