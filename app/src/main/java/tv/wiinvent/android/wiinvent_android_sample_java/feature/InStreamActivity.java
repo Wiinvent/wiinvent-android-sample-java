@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360ReportAdsButton;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds;
 import tv.wiinvent.android.wiinvent_android_sample_java.feature.utils.VideoCache;
 import tv.wiinvent.wiinventsdk.InStreamManager;
@@ -85,6 +86,7 @@ public class InStreamActivity extends AppCompatActivity {
   private View playerCoverIv = null;
   private View controlView = null;
   private TV360SkipAdsButtonAds skipButton = null;
+  private TV360ReportAdsButton reportButton = null;
   private View containerDonateMessage = null;
   private View playerTopBarLl = null;
   private View layoutListEpisodesFullscreen = null;
@@ -110,6 +112,7 @@ public class InStreamActivity extends AppCompatActivity {
     playerCoverIv = findViewById(R.id.player_cover_iv);
     controlView = findViewById(R.id.control_view);
     skipButton = findViewById(R.id.skip_button);
+    reportButton = findViewById(R.id.wisdk_report_button);
     containerDonateMessage = findViewById(R.id.container_donate_message);
     playerTopBarLl = findViewById(R.id.player_top_bar_ll);
     layoutListEpisodesFullscreen = findViewById(R.id.layout_list_episodes_fullscreen);
@@ -130,6 +133,29 @@ public class InStreamActivity extends AppCompatActivity {
     }
     InStreamManager.Companion.getInstance().init(getBaseContext(), "14", DeviceType.PHONE, Environment.SANDBOX, 10, 5, 5, 2000, LevelLog.BODY, 6);
     InStreamManager.Companion.getInstance().setLoaderListener(new InStreamManager.WiAdsLoaderListener() {
+
+      @Override
+      public void showReportButton(@NonNull String s) {
+        if(reportButton != null)
+          reportButton.show(InStreamActivity.this);
+      }
+
+      @Override
+      public void hideReportButton(@NonNull String s) {
+        if(reportButton != null)
+          reportButton.hide();
+
+      }
+
+      @Override
+      public void resumeSkipButton() {
+
+      }
+
+      @Override
+      public void pauseSkipButton() {
+
+      }
 
       @Override
       public void showContentPlayer() {
@@ -236,11 +262,13 @@ public class InStreamActivity extends AppCompatActivity {
 
     MediaSource mediaSource = buildMediaSource(buildDataSourceFactory(httpDataSourceFactory), CONTENT_URL);
 
-    InStreamManager.Companion.getInstance()
-        .requestAds(adsRequestData,
+    InStreamManager.Companion.getInstance().requestAds(
+            adsRequestData,
             adPlayerView,
             player,
-            registerFriendlyObstruction());
+            registerFriendlyObstruction(),
+            reportButton
+    );
     player.setMediaSource(mediaSource);
     player.prepare();
 
@@ -345,6 +373,13 @@ public class InStreamActivity extends AppCompatActivity {
         "Btn Change Source"
     );
     friendlyObstructionList.add(btnChangeSourceOb);
+
+    FriendlyObstruction reportButtonOb = InStreamManager.Companion.getInstance().createFriendlyObstruction(
+        reportButton,
+        FriendlyObstructionPurpose.OTHER,
+        "Report Button"
+    );
+    friendlyObstructionList.add(reportButtonOb);
 
     return friendlyObstructionList;
   }

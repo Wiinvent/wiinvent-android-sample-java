@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +41,7 @@ import tv.wiinvent.wiinventsdk.models.ads.DisplayBannerAdsRequestData;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayAdSize;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
+import tv.wiinvent.wiinventsdk.report.ReportButtonAds;
 import tv.wiinvent.wiinventsdk.ui.banner.BannerAdView;
 
 public class DisplayBannerActivity extends AppCompatActivity {
@@ -121,12 +124,28 @@ public class DisplayBannerActivity extends AppCompatActivity {
 
         DisplayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
             @Override
-            public void onDisplayAds(String positionId, BannerAdView adView) {
+            public void onHideReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+                if(reportButtonAds != null) {
+                    reportButtonAds.hide();
+                }
+            }
+
+            @Override
+            public void onShowReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+                if(reportButtonAds != null) {
+                    reportButtonAds.show(DisplayBannerActivity.this);
+                }
+            }
+
+
+
+            @Override
+            public void onDisplayAds(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========DisplayBannerManager onDisplayAds");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.VISIBLE);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -137,25 +156,25 @@ public class DisplayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
+            public void onAdsBannerDismiss(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsBannerDismiss");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.GONE);
-                        DisplayBannerManager.Companion.getInstance().releaseBanner(adView);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.GONE);
+                        DisplayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
                     }
                 });
             }
 
             @Override
-            public void onAdsBannerError(String positionId, BannerAdView adView) {
+            public void onAdsBannerError(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========DisplayBannerManager onAdsWelcomeError");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.GONE);
-                        DisplayBannerManager.Companion.getInstance().releaseBanner(adView);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.GONE);
+                        DisplayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
                     }
                 });
             }
@@ -168,60 +187,12 @@ public class DisplayBannerActivity extends AppCompatActivity {
     }
 
 
-    public void showDisplayBanner() {
-//        showDisplayBanner(
-//                adSize,
-//                BannerDisplayType.DISPLAY,
-//                R.id.banner_ad_display_view,
-//                positionIdDefault.isEmpty() ? "homepage1" : positionIdDefault
-//        );
-    }
-
-    public void showOverlayBanner() {
-        showDisplayBanner(
-                BannerDisplayAdSize.PAUSE_BANNER,
-                BannerDisplayType.OVERLAY,
-                R.id.banner_ad_overlay_view,
-                ""
-        );
-    }
 
     public void dismissOverlayBanner() {
         BannerAdView bannerView = findViewById(R.id.banner_ad_overlay_view);
         DisplayBannerManager.Companion.getInstance().releaseBanner(bannerView);
     }
 
-    public void showDisplayBanner(
-            BannerDisplayAdSize adSize,
-            BannerDisplayType displayType,
-            int viewId,
-            String positionId
-    ) {
-        DisplayBannerAdsRequestData bannerAdsRequestData =
-                new DisplayBannerAdsRequestData.Builder()
-                        .channelId(channelIdDefault.isEmpty() ? "998989" : channelIdDefault)
-                        .streamId(streamIdDefault.isEmpty() ? "999999" : streamIdDefault)
-                        .adSize(adSize)
-                        .bannerDisplayType(displayType)
-                        .title("Day la title")
-                        .category("category 1, category 2")
-                        .transId("1112222222")
-                        // .age(30)
-                        // .gender(Gender.FEMALE)
-                        .uid20("123123123")
-                        .color("#ffffff00")
-                        .segments("a3,34,d3,d3")
-                        .positionId(positionId)
-                        .build();
-
-        BannerAdView bannerAdView = findViewById(viewId);
-
-        DisplayBannerManager.Companion.getInstance().requestAds(
-                this,
-                bannerAdView,
-                bannerAdsRequestData
-        );
-    }
 
 
 

@@ -82,6 +82,7 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
         private ConstraintLayout ctlBanner;
         private TextView tvTitle;
         private BannerAdView bannerAdView;
+        private TV360ReportAdsButton reportButton;
 
         public DisplayBannerViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +98,15 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
             layoutParams.topMargin = 20;
             bannerAdView.setLayoutParams(layoutParams);
             ctlBanner.addView(bannerAdView);
+
+            reportButton = new TV360ReportAdsButton(itemView.getContext());
+            ConstraintLayout.LayoutParams layoutParamsReportButton = new ConstraintLayout.LayoutParams(50, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            layoutParamsReportButton.topToTop = bannerAdView.getId();
+            layoutParamsReportButton.endToEnd = bannerAdView.getId();
+            layoutParamsReportButton.rightMargin = 20;
+            reportButton.setLayoutParams(layoutParamsReportButton);
+            ctlBanner.addView(reportButton);
+
             Log.e("tamlog", "createAdBannerView " + bannerAdView.getId());
 
         }
@@ -138,6 +148,7 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
             DisplayBannerManager.Companion.getInstance().requestAds(
                     activity,
                     bannerAdView,
+                    reportButton,
                     bannerAdsRequestData
             );
 

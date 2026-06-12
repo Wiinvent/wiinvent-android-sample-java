@@ -35,6 +35,7 @@
 
 
         </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
+
         <tv.wiinvent.wiinventsdk.ui.banner.BannerAdView
             android:id="@+id/banner_ad_overlay_view"
             android:layout_width="0dp"
@@ -47,6 +48,16 @@
             app:layout_constraintWidth_percent="0.5"
             android:layout_marginHorizontal="20dp"
             />
+        <tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360ReportAdsButton
+            android:id="@+id/banner_report_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/banner_ad_overlay_view"
+            app:layout_constraintRight_toRightOf="@id/banner_ad_overlay_view"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <Button
             android:id="@+id/overlay_banner"

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.C;
@@ -26,12 +28,16 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360ReportAdsButton;
+import tv.wiinvent.wiinventsdk.DisplayBannerManager;
 import tv.wiinvent.wiinventsdk.OverlayBannerManager;
+import tv.wiinvent.wiinventsdk.interfaces.OverlayEventListener;
 import tv.wiinvent.wiinventsdk.interfaces.banner.BannerAdEventListener;
 import tv.wiinvent.wiinventsdk.models.ads.DisplayBannerAdsRequestData;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayAdSize;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
+import tv.wiinvent.wiinventsdk.report.ReportButtonAds;
 import tv.wiinvent.wiinventsdk.ui.banner.BannerAdView;
 
 public class OverlayBannerActivity extends AppCompatActivity {
@@ -83,12 +89,28 @@ public class OverlayBannerActivity extends AppCompatActivity {
 
         OverlayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
             @Override
-            public void onDisplayAds(String positionId, BannerAdView adView) {
+            public void onHideReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+                if(reportButtonAds != null) {
+                    reportButtonAds.hide();
+                }
+            }
+
+            @Override
+            public void onShowReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+                if(reportButtonAds != null) {
+                    reportButtonAds.show(OverlayBannerActivity.this);
+                }
+            }
+
+
+
+            @Override
+            public void onDisplayAds(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========OverlayBannerManager onDisplayAds");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.VISIBLE);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -99,25 +121,25 @@ public class OverlayBannerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
+            public void onAdsBannerDismiss(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsBannerDismiss");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.GONE);
-                        OverlayBannerManager.Companion.getInstance().releaseBanner(adView);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.GONE);
+                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView, reportButtonAds);
                     }
                 });
             }
 
             @Override
-            public void onAdsBannerError(String positionId, BannerAdView adView) {
+            public void onAdsBannerError(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsWelcomeError");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.GONE);
-                        OverlayBannerManager.Companion.getInstance().releaseBanner(adView);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.GONE);
+                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView, reportButtonAds);
                     }
                 });
             }
@@ -171,7 +193,8 @@ public class OverlayBannerActivity extends AppCompatActivity {
 
     public void dismissOverlayBanner() {
         BannerAdView bannerView = findViewById(R.id.banner_ad_overlay_view);
-        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerView);
+        TV360ReportAdsButton reportAdsButton = findViewById(R.id.banner_report_button);
+        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerView, reportAdsButton);
     }
 
     public void showDisplayBanner(
@@ -198,11 +221,13 @@ public class OverlayBannerActivity extends AppCompatActivity {
                         .build();
 
         BannerAdView bannerAdView = findViewById(R.id.banner_ad_overlay_view);
+        TV360ReportAdsButton reportAdsButton = findViewById(R.id.banner_report_button);
         OverlayBannerManager.Companion.getInstance().requestAds(
                 this,
                 bannerAdView,
                 bannerAdsRequestData,
-                30
+                30,
+                reportAdsButton
         );
     }
 

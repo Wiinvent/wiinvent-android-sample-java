@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.C;
@@ -26,12 +28,14 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
+import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360ReportAdsButton;
 import tv.wiinvent.wiinventsdk.DisplayBannerManager;
 import tv.wiinvent.wiinventsdk.interfaces.banner.BannerAdEventListener;
 import tv.wiinvent.wiinventsdk.models.ads.DisplayBannerAdsRequestData;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayAdSize;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
+import tv.wiinvent.wiinventsdk.report.ReportButtonAds;
 import tv.wiinvent.wiinventsdk.ui.banner.BannerAdView;
 
 public class BannerActivity extends AppCompatActivity {
@@ -77,12 +81,28 @@ public class BannerActivity extends AppCompatActivity {
 
     DisplayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
       @Override
-      public void onDisplayAds(String positionId, BannerAdView adView) {
+      public void onHideReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+        if(reportButtonAds != null) {
+          reportButtonAds.hide();
+        }
+      }
+
+      @Override
+      public void onShowReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+        if(reportButtonAds != null) {
+          reportButtonAds.show(BannerActivity.this);
+        }
+      }
+
+
+
+      @Override
+      public void onDisplayAds(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
         Log.d(TAG, "=========DisplayBannerManager onDisplayAds");
 
         runOnUiThread(() -> {
-          if (adView != null) {
-            adView.setVisibility(View.VISIBLE);
+          if (bannerAdView != null) {
+            bannerAdView.setVisibility(View.VISIBLE);
           }
         });
       }
@@ -93,25 +113,25 @@ public class BannerActivity extends AppCompatActivity {
       }
 
       @Override
-      public void onAdsBannerDismiss(String positionId, BannerAdView adView) {
+      public void onAdsBannerDismiss(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
         Log.d(TAG, "=========DisplayBannerManager onAdsBannerDismiss");
 
         runOnUiThread(() -> {
-          if (adView != null) {
-            adView.setVisibility(View.GONE);
-            DisplayBannerManager.Companion.getInstance().releaseBanner(adView);
+          if (bannerAdView != null) {
+            bannerAdView.setVisibility(View.GONE);
+            DisplayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
           }
         });
       }
 
       @Override
-      public void onAdsBannerError(String positionId, BannerAdView adView) {
+      public void onAdsBannerError(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
         Log.d(TAG, "=========DisplayBannerManager onAdsWelcomeError");
 
         runOnUiThread(() -> {
-          if (adView != null) {
-            adView.setVisibility(View.GONE);
-            DisplayBannerManager.Companion.getInstance().releaseBanner(adView);
+          if (bannerAdView != null) {
+            bannerAdView.setVisibility(View.GONE);
+            DisplayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
           }
         });
       }
@@ -154,20 +174,12 @@ public class BannerActivity extends AppCompatActivity {
     // loadPlayer();
   }
 
-  public void showDisplayBanner() {
-//    showDisplayBanner(
-//        adSize,
-//        BannerDisplayType.DISPLAY,
-//        R.id.banner_ad_display_view,
-//        positionIdDefault.isEmpty() ? "homepage1" : positionIdDefault
-//    );
-  }
-
   public void showOverlayBanner() {
     showDisplayBanner(
         BannerDisplayAdSize.PAUSE_BANNER,
         BannerDisplayType.OVERLAY,
         R.id.banner_ad_overlay_view,
+        R.id.banner_report_button,
         ""
     );
   }
@@ -181,6 +193,7 @@ public class BannerActivity extends AppCompatActivity {
       BannerDisplayAdSize adSize,
       BannerDisplayType displayType,
       int viewId,
+      int reportButtonId,
       String positionId
   ) {
     DisplayBannerAdsRequestData bannerAdsRequestData =
@@ -200,11 +213,13 @@ public class BannerActivity extends AppCompatActivity {
             .positionId(positionId)
             .build();
     BannerAdView bannerAdView = findViewById(viewId);
+    TV360ReportAdsButton reportAdsButton = findViewById(reportButtonId);
 
     DisplayBannerManager.Companion.getInstance().requestAds(
         this,
             bannerAdView,
-        bannerAdsRequestData
+            reportAdsButton,
+            bannerAdsRequestData
     );
   }
 
