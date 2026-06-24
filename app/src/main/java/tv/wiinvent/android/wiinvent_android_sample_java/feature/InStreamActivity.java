@@ -449,6 +449,8 @@ public class InStreamActivity extends AppCompatActivity {
 
     if (skipButton != null)
       skipButton.pause();
+
+    InStreamManager.Companion.getInstance().pause();
   }
 
   @Override
@@ -459,5 +461,7 @@ public class InStreamActivity extends AppCompatActivity {
 
     if (skipButton != null)
       skipButton.resume();
+
+    InStreamManager.Companion.getInstance().resume();
   }
 }
