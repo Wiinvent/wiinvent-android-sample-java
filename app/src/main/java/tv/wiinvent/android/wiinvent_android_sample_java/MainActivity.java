@@ -122,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
     findViewById(R.id.welcomeBtn).setOnClickListener(v -> {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
               .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
-              .uid20("") // unified id 2.0, nếu không có thì set ""
+              .uid("123123123") // userId của người dùng, nếu không có thì set ""
+              .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
               .segments("123,123,123,123") //segments lay tu server doi tac
               .build();
 

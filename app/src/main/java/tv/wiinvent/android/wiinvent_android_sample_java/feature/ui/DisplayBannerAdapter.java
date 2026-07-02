@@ -138,7 +138,8 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
                             .transId("1112222222")
                             // .age(30)
                             // .gender(Gender.FEMALE)
-                            .uid20("123123123")
+                            .uid("123123123") // userId của người dùng, nếu không có thì set ""
+                            .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
                             .color("#ffffff00")
                             .segments("a3,34,d3,d3")
                             .positionId(positionId)
