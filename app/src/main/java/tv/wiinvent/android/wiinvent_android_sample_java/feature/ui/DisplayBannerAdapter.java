@@ -2,6 +2,7 @@ package tv.wiinvent.android.wiinvent_android_sample_java.feature.ui;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +64,12 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
         return bannerParams.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull DisplayBannerViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.recycled();
+    }
+
     private Pair<String, BannerDisplayAdSize> item(int position) {
         if (position < 0 || position >= bannerParams.size()) {
             return null;
@@ -90,6 +97,10 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
             layoutParams.topMargin = 20;
             bannerAdView.setLayoutParams(layoutParams);
             ctlBanner.addView(bannerAdView);
+
+            // Từ 1.10.20 SDK tự tạo và gắn report/info button vào bên trong BannerAdView
+
+            Log.e("tamlog", "createAdBannerView " + bannerAdView.getId());
 
         }
 
@@ -120,7 +131,9 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
                             .transId("1112222222")
                             // .age(30)
                             // .gender(Gender.FEMALE)
-                            .uid20("123123123")
+                            .uid("123123123") // userId của người dùng, nếu không có thì set ""
+                            .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+                            .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
                             .color("#ffffff00")
                             .segments("a3,34,d3,d3")
                             .positionId(positionId)
@@ -129,12 +142,17 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
 
             DisplayBannerManager.Companion.getInstance().requestAds(
                     activity,
-                    viewId,
+                    bannerAdView,
                     bannerAdsRequestData
             );
 
 
 
+        }
+        void recycled() {
+            if(bannerAdView != null) {
+                DisplayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
+            }
         }
 
         private int generateViewId() {

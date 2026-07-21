@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.C;
@@ -26,12 +28,15 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
+import tv.wiinvent.wiinventsdk.DisplayBannerManager;
 import tv.wiinvent.wiinventsdk.OverlayBannerManager;
+import tv.wiinvent.wiinventsdk.interfaces.OverlayEventListener;
 import tv.wiinvent.wiinventsdk.interfaces.banner.BannerAdEventListener;
 import tv.wiinvent.wiinventsdk.models.ads.DisplayBannerAdsRequestData;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayAdSize;
 import tv.wiinvent.wiinventsdk.models.type.BannerDisplayType;
 import tv.wiinvent.wiinventsdk.models.type.Environment;
+import tv.wiinvent.wiinventsdk.report.ReportButtonAds;
 import tv.wiinvent.wiinventsdk.ui.banner.BannerAdView;
 
 public class OverlayBannerActivity extends AppCompatActivity {
@@ -43,7 +48,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
     private String channelIdDefault = "998989";
     private String streamIdDefault = "999999";
     private String positionIdDefault = "homepage1";
-    private BannerDisplayAdSize adSize = BannerDisplayAdSize.LARGE_BANNER;
+    private BannerDisplayAdSize adSize = BannerDisplayAdSize.HOMEPAGE_BANNER;
 
     private static final String CONTENT_URL = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8";
 
@@ -83,47 +88,63 @@ public class OverlayBannerActivity extends AppCompatActivity {
 
         OverlayBannerManager.Companion.getInstance().addBannerListener(new BannerAdEventListener() {
             @Override
-            public void onDisplayAds(BannerAdView adView) {
+            public void onHideReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+                if(reportButtonAds != null) {
+                    reportButtonAds.hide();
+                }
+            }
+
+            @Override
+            public void onShowReportButton(@NonNull String s, @Nullable ReportButtonAds reportButtonAds) {
+                if(reportButtonAds != null) {
+                    reportButtonAds.show(OverlayBannerActivity.this);
+                }
+            }
+
+
+
+            @Override
+            public void onDisplayAds(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========OverlayBannerManager onDisplayAds");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.VISIBLE);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.VISIBLE);
                     }
                 });
             }
 
             @Override
-            public void onNoAds(BannerAdView adView) {
+            public void onNoAds(String positionId, BannerAdView adView) {
                 Log.d(TAG, "=========OverlayBannerManager khong co ads de show 1");
             }
 
             @Override
-            public void onAdsBannerDismiss(BannerAdView adView) {
+            public void onAdsBannerDismiss(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsBannerDismiss");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.GONE);
-                        OverlayBannerManager.Companion.getInstance().releaseBanner(adView);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.GONE);
+                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
                     }
                 });
             }
 
             @Override
-            public void onAdsBannerError(BannerAdView adView) {
+            public void onAdsBannerError(@NonNull String s, @Nullable BannerAdView bannerAdView, @Nullable ReportButtonAds reportButtonAds) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsWelcomeError");
 
                 runOnUiThread(() -> {
-                    if (adView != null) {
-                        adView.setVisibility(View.GONE);
-                        OverlayBannerManager.Companion.getInstance().releaseBanner(adView);
+                    if (bannerAdView != null) {
+                        bannerAdView.setVisibility(View.GONE);
+                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
                     }
                 });
             }
 
             @Override
-            public void onAdsBannerClick(String clickThroughLink) {
+            public void onAdsBannerClick(String positionId, String clickThroughLink) {
                 Log.d(TAG, "=========OverlayBannerManager onAdsBannerClick " + clickThroughLink);
             }
         });
@@ -191,16 +212,21 @@ public class OverlayBannerActivity extends AppCompatActivity {
                         .transId("1112222222")
                         // .age(30)
                         // .gender(Gender.FEMALE)
-                        .uid20("123123123")
+                        .uid("123123123") // userId của người dùng, nếu không có thì set ""
+                        .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+                        .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
                         .color("#ffffff00")
                         .segments("a3,34,d3,d3")
                         .positionId(positionId)
                         .build();
 
+        BannerAdView bannerAdView = findViewById(R.id.banner_ad_overlay_view);
+        // Từ 1.10.20 SDK tự tạo report/info/skip button bên trong BannerAdView
         OverlayBannerManager.Companion.getInstance().requestAds(
                 this,
-                R.id.banner_ad_overlay_view,
-                bannerAdsRequestData
+                bannerAdView,
+                bannerAdsRequestData,
+                30
         );
     }
 

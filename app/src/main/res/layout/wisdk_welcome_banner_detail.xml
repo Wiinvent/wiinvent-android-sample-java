@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <WebView
-        android:id="@+id/wisdk_web_view"
+    <tv.wiinvent.wiinventsdk.ui.welcomead.WelcomeBannerAdView
+        android:id="@+id/wisdk_banner_ad_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +32,8 @@
         android:textSize="16sp"
         android:textAllCaps="false"
         android:text=""/>
+
+
     <tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.Tv360AdsInfoButton
         android:id="@+id/wisdk_info_button"
         android:layout_width="30dp"
@@ -54,5 +56,6 @@
         android:visibility="gone"
         tools:visibility="visible"
         android:gravity="center"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

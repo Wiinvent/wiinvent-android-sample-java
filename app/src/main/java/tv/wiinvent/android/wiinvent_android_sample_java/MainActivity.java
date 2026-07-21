@@ -122,20 +122,52 @@ public class MainActivity extends AppCompatActivity {
     findViewById(R.id.welcomeBtn).setOnClickListener(v -> {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
               .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
-              .uid20("") // unified id 2.0, nếu không có thì set ""
+              .uid("123123123") // userId của người dùng, nếu không có thì set ""
+              .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+              .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
               .segments("123,123,123,123") //segments lay tu server doi tac
               .build();
 
-      AdsWelcomeManager.Companion.getInstance().requestAds(this,
-              R.id.welcome_ad_view,
-              R.layout.wisdk_welcome_tvc_detail,
-              R.id.wisdk_exo_player_view,
-              R.id.wisdk_ad_player_view,
-              R.id.wisdk_skip_button,
-              R.layout.wisdk_welcome_combo_detail,
-              R.layout.wisdk_welcome_banner_sdk_detail,
-              R.id.wisdk_web_view,
-              R.id.wisdk_background_img,
+      /**
+       * requestAds(
+       *      activity = this
+       *       viewId = R.id.welcome_ad_view,
+       *       tvcLayoutId = R.layout.wisdk_welcome_tvc_detail,
+       *       tvcPlayerViewId = R.id.wisdk_exo_player_view,
+       *       tvcAdPlayerViewId = R.id.wisdk_ad_player_view,
+       *       tvcSkipButtonId = R.id.wisdk_skip_button,
+       *       comboLayoutId = R.layout.wisdk_welcome_combo_detail,
+       *       bannerSdkLayoutId = R.layout.wisdk_welcome_banner_sdk_detail,
+       *       bannerSdkWebViewId = R.id.wisdk_web_view,
+       *       bannerLayoutId = R.layout.wisdk_welcome_banner_detail,
+       *       bannerAdViewId = R.id.wisdk_banner_ad_view,
+       *       backgroundImgId = R.id.wisdk_background_img,
+       *       reportButtonId = R.id.wisdk_report_button,
+       *       infoAdsButtonId = R.id.wisdk_info_button,
+       *       adsRequestData = welcomeAdsRequestData,
+       *       )
+       */
+
+      AdsWelcomeManager.Companion.getInstance().requestAds(
+              this, // activity
+              R.id.welcome_ad_view, // viewId
+              R.layout.wisdk_welcome_tvc_detail, // tvcLayoutId
+              R.id.wisdk_exo_player_view, // tvcPlayerViewId
+              R.id.wisdk_ad_player_view, // tvcAdPlayerViewId
+
+              R.id.wisdk_skip_button, // tvcSkipButtonId
+
+              R.layout.wisdk_welcome_combo_detail, // comboLayoutId
+
+              R.layout.wisdk_welcome_banner_sdk_detail, // bannerSdkLayoutId
+              R.id.wisdk_web_view, // bannerSdkWebViewId
+
+              R.layout.wisdk_welcome_banner_detail, // bannerLayoutId
+              R.id.wisdk_banner_ad_view, // bannerAdViewId
+
+              R.id.wisdk_background_img, // backgroundImgId
+              R.id.wisdk_report_button, // reportButtonId
+              R.id.wisdk_info_button, // infoAdsButtonId
               adsRequestData);
     });
   }
