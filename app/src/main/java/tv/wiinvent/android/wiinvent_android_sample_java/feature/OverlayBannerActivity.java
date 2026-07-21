@@ -28,7 +28,6 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
-import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360ReportAdsButton;
 import tv.wiinvent.wiinventsdk.DisplayBannerManager;
 import tv.wiinvent.wiinventsdk.OverlayBannerManager;
 import tv.wiinvent.wiinventsdk.interfaces.OverlayEventListener;
@@ -127,7 +126,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (bannerAdView != null) {
                         bannerAdView.setVisibility(View.GONE);
-                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView, reportButtonAds);
+                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
                     }
                 });
             }
@@ -139,7 +138,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (bannerAdView != null) {
                         bannerAdView.setVisibility(View.GONE);
-                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView, reportButtonAds);
+                        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerAdView);
                     }
                 });
             }
@@ -193,8 +192,7 @@ public class OverlayBannerActivity extends AppCompatActivity {
 
     public void dismissOverlayBanner() {
         BannerAdView bannerView = findViewById(R.id.banner_ad_overlay_view);
-        TV360ReportAdsButton reportAdsButton = findViewById(R.id.banner_report_button);
-        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerView, reportAdsButton);
+        OverlayBannerManager.Companion.getInstance().releaseBanner(bannerView);
     }
 
     public void showDisplayBanner(
@@ -216,19 +214,19 @@ public class OverlayBannerActivity extends AppCompatActivity {
                         // .gender(Gender.FEMALE)
                         .uid("123123123") // userId của người dùng, nếu không có thì set ""
                         .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+                        .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
                         .color("#ffffff00")
                         .segments("a3,34,d3,d3")
                         .positionId(positionId)
                         .build();
 
         BannerAdView bannerAdView = findViewById(R.id.banner_ad_overlay_view);
-        TV360ReportAdsButton reportAdsButton = findViewById(R.id.banner_report_button);
+        // Từ 1.10.20 SDK tự tạo report/info/skip button bên trong BannerAdView
         OverlayBannerManager.Companion.getInstance().requestAds(
                 this,
                 bannerAdView,
                 bannerAdsRequestData,
-                30,
-                reportAdsButton
+                30
         );
     }
 

@@ -48,7 +48,8 @@
     <RelativeLayout
       android:id="@+id/subtitles_view"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+        android:visibility="gone">
 
       <com.google.android.exoplayer2.ui.SubtitleView
         android:id="@+id/subtitles"
@@ -70,7 +71,8 @@
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:layout_centerInParent="true"
-      android:layout_gravity="bottom">
+      android:layout_gravity="bottom"
+        android:visibility="gone">
       <TextView
         android:id="@+id/text_live"
         android:layout_width="wrap_content"
@@ -114,13 +116,12 @@
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:visibility="gone"
         tools:visibility="visible"
         android:gravity="center"
-        android:layout_gravity="end"/>
+        android:layout_gravity="start"/>
 
 
     <tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360SkipAdsButtonAds
@@ -164,7 +165,8 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+      android:visibility="gone">
 
     <LinearLayout
       android:layout_width="wrap_content"
@@ -380,6 +382,7 @@
   <Button android:id="@+id/btnChangeSource"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+      android:visibility="gone"
     android:text="Change source"
     />
 </FrameLayout>

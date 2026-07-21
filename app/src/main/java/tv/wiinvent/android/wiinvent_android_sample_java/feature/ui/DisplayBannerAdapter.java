@@ -82,7 +82,6 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
         private ConstraintLayout ctlBanner;
         private TextView tvTitle;
         private BannerAdView bannerAdView;
-        private TV360ReportAdsButton reportButton;
 
         public DisplayBannerViewHolder(View itemView) {
             super(itemView);
@@ -99,13 +98,7 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
             bannerAdView.setLayoutParams(layoutParams);
             ctlBanner.addView(bannerAdView);
 
-            reportButton = new TV360ReportAdsButton(itemView.getContext());
-            ConstraintLayout.LayoutParams layoutParamsReportButton = new ConstraintLayout.LayoutParams(50, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-            layoutParamsReportButton.topToTop = bannerAdView.getId();
-            layoutParamsReportButton.endToEnd = bannerAdView.getId();
-            layoutParamsReportButton.rightMargin = 20;
-            reportButton.setLayoutParams(layoutParamsReportButton);
-            ctlBanner.addView(reportButton);
+            // Từ 1.10.20 SDK tự tạo và gắn report/info button vào bên trong BannerAdView
 
             Log.e("tamlog", "createAdBannerView " + bannerAdView.getId());
 
@@ -140,6 +133,7 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
                             // .gender(Gender.FEMALE)
                             .uid("123123123") // userId của người dùng, nếu không có thì set ""
                             .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+                            .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
                             .color("#ffffff00")
                             .segments("a3,34,d3,d3")
                             .positionId(positionId)
@@ -149,7 +143,6 @@ public class DisplayBannerAdapter extends RecyclerView.Adapter<DisplayBannerAdap
             DisplayBannerManager.Companion.getInstance().requestAds(
                     activity,
                     bannerAdView,
-                    reportButton,
                     bannerAdsRequestData
             );
 

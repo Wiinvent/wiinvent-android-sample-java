@@ -13,17 +13,14 @@ public class TV360ReportAdsButton extends ReportButtonAds {
 
     public TV360ReportAdsButton(@Nullable Context context) {
         super(context);
-        init();
     }
 
     public TV360ReportAdsButton(@NonNull Context context, @NonNull AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public TV360ReportAdsButton(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
 

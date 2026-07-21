@@ -1,4 +1,15 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(sed -i '' \"s|tv.wiinvent:wiinvent-sdk-android:1.10.19|tv.wiinvent:wiinvent-sdk-android:1.10.20|\" app/build.gradle)",
+      "Bash(sed -i '' \"s|com.example.sample.ui.|tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.|g\" app/src/main/res/layout/wisdk_welcome_*.xml)",
+      "Bash(perl -0pi -e 's/\\\\n        init\\\\\\(\\\\\\);\\\\n    \\\\}/\\\\n    }/g' app/src/main/java/tv/wiinvent/android/wiinvent_android_sample_java/feature/ui/TV360ReportAdsButton.java)",
+      "Bash(./gradlew assembleDebug -q)",
+      "Bash(perl -0pi -e 's/        R\\\\.id\\\\.banner_ad_overlay_view,\\\\n        R\\\\.id\\\\.banner_report_button,\\\\n/        R.id.banner_ad_overlay_view,\\\\n/; s/      int viewId,\\\\n      int reportButtonId,\\\\n/      int viewId,\\\\n/' app/src/main/java/tv/wiinvent/android/wiinvent_android_sample_java/feature/BannerActivity.java)",
+      "Bash(./gradlew assembleDebug)",
+      "Bash(./gradlew -q app:dependencies --configuration debugRuntimeClasspath)"
+    ]
+  },
   "enabledPlugins": {
     "agent-skills@addy-agent-skills": true,
     "ponytail@ponytail": true

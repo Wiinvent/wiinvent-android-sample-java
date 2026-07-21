@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/report_ads_button"
+        android:id="@+id/info_ads_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,7 +18,7 @@
         android:visibility="visible"
         tools:visibility="visible"
         android:textAllCaps="false"
-        android:src="@drawable/ic_report_ads"
+        android:src="@drawable/bg_ads_info"
         android:gravity="center"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

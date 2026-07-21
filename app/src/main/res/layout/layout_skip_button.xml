@@ -4,28 +4,15 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content">
-<!--  <Button-->
-<!--    android:id="@+id/skip_ads_button"-->
-<!--    style="@style/SkipButtonStyle"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:paddingLeft="10dp"-->
-<!--    android:paddingRight="10dp"-->
-<!--    android:textColor="@color/white"-->
-<!--    android:textSize="16sp"-->
-<!--    android:textAllCaps="false"-->
-<!--    android:text=""-->
-<!--    />-->
-
   <Button
     android:id="@+id/skip_ads_button"
+    style="@style/SkipButtonStyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/skip_background_button"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:textColor="@color/white"
-    android:textSize="18sp"
+    android:textSize="16sp"
     android:textAllCaps="false"
     android:text=""
     />

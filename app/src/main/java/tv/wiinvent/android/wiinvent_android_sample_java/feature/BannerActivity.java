@@ -28,7 +28,6 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Objects;
 
 import tv.wiinvent.android.wiinvent_android_sample_java.R;
-import tv.wiinvent.android.wiinvent_android_sample_java.feature.ui.TV360ReportAdsButton;
 import tv.wiinvent.wiinventsdk.DisplayBannerManager;
 import tv.wiinvent.wiinventsdk.interfaces.banner.BannerAdEventListener;
 import tv.wiinvent.wiinventsdk.models.ads.DisplayBannerAdsRequestData;
@@ -179,7 +178,6 @@ public class BannerActivity extends AppCompatActivity {
         BannerDisplayAdSize.PAUSE_BANNER,
         BannerDisplayType.OVERLAY,
         R.id.banner_ad_overlay_view,
-        R.id.banner_report_button,
         ""
     );
   }
@@ -193,7 +191,6 @@ public class BannerActivity extends AppCompatActivity {
       BannerDisplayAdSize adSize,
       BannerDisplayType displayType,
       int viewId,
-      int reportButtonId,
       String positionId
   ) {
     DisplayBannerAdsRequestData bannerAdsRequestData =
@@ -209,17 +206,16 @@ public class BannerActivity extends AppCompatActivity {
             // .gender(Gender.FEMALE)
             .uid("123123123") // userId của người dùng, nếu không có thì set ""
             .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+            .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
             .color("#ffffff00")
             .segments("a3,34,d3,d3")
             .positionId(positionId)
             .build();
     BannerAdView bannerAdView = findViewById(viewId);
-    TV360ReportAdsButton reportAdsButton = findViewById(reportButtonId);
 
     DisplayBannerManager.Companion.getInstance().requestAds(
         this,
             bannerAdView,
-            reportAdsButton,
             bannerAdsRequestData
     );
   }

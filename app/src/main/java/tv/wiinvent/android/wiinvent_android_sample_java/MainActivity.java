@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
               .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
               .uid("123123123") // userId của người dùng, nếu không có thì set ""
               .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
+              .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
               .segments("123,123,123,123") //segments lay tu server doi tac
               .build();
 
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
        *       bannerAdViewId = R.id.wisdk_banner_ad_view,
        *       backgroundImgId = R.id.wisdk_background_img,
        *       reportButtonId = R.id.wisdk_report_button,
+       *       infoAdsButtonId = R.id.wisdk_info_button,
        *       adsRequestData = welcomeAdsRequestData,
        *       )
        */
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
               R.id.wisdk_background_img, // backgroundImgId
               R.id.wisdk_report_button, // reportButtonId
+              R.id.wisdk_info_button, // infoAdsButtonId
               adsRequestData);
     });
   }
