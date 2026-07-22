@@ -1,7 +1,7 @@
-### Version 1.10.20
+### Version 1.10.22
 
 Change log:
-- Update SDK version to `1.10.20`.
+- Update SDK version to `1.10.22`.
 - Bổ sung tham số `adPendingTime` cho tất cả request ads (gửi lên backend qua param `apt`).
 - `ReportButtonAds` không còn là `abstract`, đã có layout mặc định. Host **không bắt buộc** phải kế thừa nữa.
 - Bổ sung `InfoButtonAds` — nút thông tin quảng cáo, dùng cùng cơ chế với `ReportButtonAds`.
