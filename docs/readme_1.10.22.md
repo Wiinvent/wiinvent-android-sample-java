@@ -1,7 +1,7 @@
 ### Version 1.10.22
 
 Change log:
-- Update SDK version to `1.10.22`.
+- Update SDK version to `1.10.20`.
 - Bổ sung tham số `adPendingTime` cho tất cả request ads (gửi lên backend qua param `apt`).
 - `ReportButtonAds` không còn là `abstract`, đã có layout mặc định. Host **không bắt buộc** phải kế thừa nữa.
 - Bổ sung `InfoButtonAds` — nút thông tin quảng cáo, dùng cùng cơ chế với `ReportButtonAds`.
@@ -12,9 +12,9 @@ Change log:
 - Kế thừa toàn bộ thay đổi từ `1.10.19`.
 
 Mô tả các tham số bổ sung:
-- `uid` — id người dùng. Gửi lên backend qua param `uid`.
-- `userImpressionLimit` — giới hạn số lần hiển thị quảng cáo theo user trong ngày. Gửi lên backend qua param `uil`.
-- `adPendingTime` — thời gian chờ xuất hiện giữa 2 lần quảng cáo, đơn vị giây. Gửi lên backend qua param `apt`.
+- `uid` — id người dùng.
+- `userImpressionLimit` — giới hạn số lần hiển thị quảng cáo theo user trong ngày.
+- `adPendingTime` — thời gian chờ xuất hiện giữa 2 lần quảng cáo, đơn vị giây.
 
 #### 1. SDK
 ```gradle
