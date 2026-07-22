@@ -2,6 +2,9 @@
 
 | Key                   | Description                                                                       |       Type |
 |:----------------------|:----------------------------------------------------------------------------------|-----------:|
+| uid                   | id người dùng                                                                    |     string |
+| userImpressionLimit   | giới hạn số lần hiển thị quảng cáo theo user trong ngày                           |    integer |
+| adPendingTime         | thời gian chờ xuất hiện giữa 2 lần quảng cáo, đơn vị giây                         |    integer |
 | tenantId / accountId  | id đối tác được cung cấp bởi wiinvent                                             |    integer |
 | channelId             | Danh sách id của category của nội dung & cách nhau bằng dấu ","                   |     string |
 | category              | Danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","                  |     string |
@@ -19,7 +22,6 @@
 | keyword               | Từ khoá tìm kiếm của nội dung (nếu có)                                            |     string |
 | age                   | Tuổi (Nếu có)                                                                     |     number |
 | gender                | Giới tính (nếu có)                                                                |   constant |
-| uid20                 | Unified id 2.0 (nếu có)                                                           |     string |
 | domainUrl             | link resource cdn của định dạng banner welcome                                    |     string |
 | logLevel              | level của log , môi trường PRODUCTION cần set về mức NONE                         |     string |
 | adSize                | Loại banner theo kích thước                                                       |   constant |

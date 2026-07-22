@@ -11,6 +11,11 @@ Change log:
 - Cập nhật icon report/info, icon close của overlay banner và style checkbox trong màn hình report.
 - Kế thừa toàn bộ thay đổi từ `1.10.19`.
 
+Mô tả các tham số bổ sung:
+- `uid` — id người dùng. Gửi lên backend qua param `uid`.
+- `userImpressionLimit` — giới hạn số lần hiển thị quảng cáo theo user trong ngày. Gửi lên backend qua param `uil`.
+- `adPendingTime` — thời gian chờ xuất hiện giữa 2 lần quảng cáo, đơn vị giây. Gửi lên backend qua param `apt`.
+
 #### 1. SDK
 ```gradle
 implementation 'tv.wiinvent:wiinvent-sdk-android:1.10.21'
@@ -380,7 +385,9 @@ Mẫu `layout_report_ads_button.xml` sau khi cập nhật:
 
 | Key             | Description                                                                       |    Type |
 |:----------------|:----------------------------------------------------------------------------------|--------:|
-| adPendingTime   | Thời gian chờ trước khi hiển thị quảng cáo (giây). Gửi lên backend qua param `apt`. | integer |
+| uid                 | id người dùng. Gửi lên backend qua param `uid`.                               |  string |
+| userImpressionLimit | giới hạn số lần hiển thị quảng cáo theo user trong ngày. Gửi lên backend qua param `uil`. | integer |
+| adPendingTime   | thời gian chờ xuất hiện giữa 2 lần quảng cáo, đơn vị giây. Gửi lên backend qua param `apt`. | integer |
 | infoAdsButtonId | Id của info button trong layout welcome ads                                        | integer |
 | infoButtonAds   | Button thông tin quảng cáo, extends từ `InfoButtonAds`                             |    view |
 
