@@ -122,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
     findViewById(R.id.welcomeBtn).setOnClickListener(v -> {
       WelcomeAdsRequestData adsRequestData =  new WelcomeAdsRequestData.Builder()
               .transId("300000") //mã giao dịch tạo từ server đối tác - client liên hệ server
-              .uid("123123123") // userId của người dùng, nếu không có thì set ""
+              .userId("123123123") // userId của người dùng, nếu không có thì set ""
               .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
-              .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
+              .adPendingTime(28) // thời gian chờ trước khi hiển thị quảng cáo (giây)
               .segments("123,123,123,123") //segments lay tu server doi tac
               .build();
 

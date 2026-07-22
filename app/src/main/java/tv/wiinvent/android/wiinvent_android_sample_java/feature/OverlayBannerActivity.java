@@ -212,9 +212,9 @@ public class OverlayBannerActivity extends AppCompatActivity {
                         .transId("1112222222")
                         // .age(30)
                         // .gender(Gender.FEMALE)
-                        .uid("123123123") // userId của người dùng, nếu không có thì set ""
+                        .userId("123123123") // userId của người dùng, nếu không có thì set ""
                         .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
-                        .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
+                        .adPendingTime(28) // thời gian chờ trước khi hiển thị quảng cáo (giây)
                         .color("#ffffff00")
                         .segments("a3,34,d3,d3")
                         .positionId(positionId)

@@ -251,9 +251,9 @@ public class InStreamActivity extends AppCompatActivity {
         .category("danh muc 1, danh muc 2") // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ,
         .keyword("key word 1, keyword 2") // từ khoá nếu có | để "" nếu ko có
         .transId("01sssss") //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
-        .uid("123123123") // userId của người dùng, nếu không có thì set ""
+        .userId("123123123") // userId của người dùng, nếu không có thì set ""
         .userImpressionLimit(20) // giới hạn số lần hiển thị theo user, không giới hạn thì set 0
-        .adPendingTime(2) // thời gian chờ trước khi hiển thị quảng cáo (giây)
+        .adPendingTime(28) // thời gian chờ trước khi hiển thị quảng cáo (giây)
         .segments("23,23,23,23") //segtment id lay tu server doi tac
         .build();
 
